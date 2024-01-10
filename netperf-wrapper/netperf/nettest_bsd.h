@@ -50,6 +50,8 @@
 #define NST_DCCP      3
 #define NST_SEQPACKET 4
 
+#define WANT_OMNI 1
+
 #ifdef WANT_OMNI
 #define OMNI_NO_DELAY        0x00000001
 #define OMNI_USE_SENDFILE    0x00000002
@@ -198,12 +200,16 @@ struct omni_results_struct {
   /* there are 27 ints above here, add another and you need to adjust
      the define below */
   #define OMNI_RESULTS_CONV_CUTOFF 27
+    char     azid[160];
+#if 0
+    
   char       ifname[16];    /* the probable egress interface */
   char       driver[32];    /* size based on linux/ethtool.h */
   char       version[32];
   char       firmware[32];
   char       bus[32];
   char       ifslot[16];    /* slot id of the probable egress interface */
+#endif
   char       cong_control[16]; /* what the congestion control alg was */
   /* total sizeof must be <= MAXSPECDATA*sizeof(int) */
 };
@@ -486,7 +492,7 @@ struct	udp_stream_response_struct {
 
 struct	udp_stream_results_struct {
   unsigned int	messages_recvd;
-  unsigned int	bytes_received;
+  long int	bytes_received;
   float	        elapsed_time;
   float	        cpu_util;
   int           cpu_method;    /* how was cpu util measured? */
@@ -616,9 +622,9 @@ extern int
   pacing_rate;
 
 #ifdef WANT_OMNI
-extern void scan_omni_args(int argc, char *argv[]);
+extern void scan_omni_args(int argc, char * const argv[]);
 #endif
-extern void scan_sockets_args(int argc, char *argv[]);
+extern void scan_sockets_args(int argc, char * const argv[]);
 extern struct addrinfo *complete_addrinfo(char *controlhost,
 				   char *data_address,
 				   char *port,
@@ -647,14 +653,7 @@ extern void set_hostname_and_port(char *hostname,
 				  char *portstr,
 				  int family,
 				  int port);
-extern void set_sockaddr_family_addr_port(struct sockaddr_storage *sockaddr,
-					  int family,
-					  void *addr,
-					  int port);
-extern int  get_sockaddr_family_addr_port(struct sockaddr_storage *sockaddr,
-					  int family,
-					  void *addr,
-					  int *port);
+
 extern void send_tcp_mss(char remote_host[]);
 extern void send_tcp_stream(char remote_host[]);
 extern void send_tcp_maerts(char remote_host[]);
@@ -666,18 +665,20 @@ extern void send_udp_rr(char remote_host[]);
 
 extern void send_omni(char remote_host[]);
 extern void print_uuid(char remote_host[]);
-extern void recv_omni();
+extern void recv_omni(void);
 
-extern void recv_tcp_stream();
-extern void recv_tcp_maerts();
-extern void recv_tcp_rr();
-extern void recv_tcp_conn_rr();
-extern void recv_tcp_cc();
-extern void recv_udp_stream();
-extern void recv_udp_rr();
+extern void recv_tcp_stream(void);
+extern void recv_tcp_maerts(void);
+extern void recv_tcp_rr(void);
+extern void recv_tcp_conn_rr(void);
+extern void recv_tcp_cc(void);
+extern void recv_udp_stream(void);
+extern void recv_udp_rr(void);
 
-extern void loc_cpu_rate();
-extern void rem_cpu_rate();
+extern void loc_cpu_rate(void);
+extern void rem_cpu_rate(void);
+
+
 
 #ifdef HAVE_ICSC_EXS
 extern void send_exs_tcp_stream(char remotehost[]);

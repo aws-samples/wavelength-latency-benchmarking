@@ -1,0 +1,170 @@
+2023-12-22 12:25:58 +0000  Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x2d5026260; archive(resolved)="<IDEArchive: 0x60000962fa20>", distributionTask(resolved)="2", distributionDestination(resolved)="1", distributionMethod(resolved)="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team(resolved)="<IDEProvisioningDisambiguatableBasicTeam: 0x600002f5b1c0; teamID='WV77Z2GV8T', teamName='John Naylon', teamType='Individual', username='jbpnaylon@yahoo.co.uk', isFreeProvisioningTeam='0'>">
+	Chain (15, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0x2d5026260; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002f5b1c0; teamID='WV77Z2GV8T', teamName='John Naylon', teamType='Individual', username='jbpnaylon@yahoo.co.uk', isFreeProvisioningTeam='0'>">
+	<IDEDistributionProcessingPipelineContext: 0x2d5025fc0; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002f5b1c0; teamID='WV77Z2GV8T', teamName='John Naylon', teamType='Individual', username='jbpnaylon@yahoo.co.uk', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x1168c8670; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002f5b1c0; teamID='WV77Z2GV8T', teamName='John Naylon', teamType='Individual', username='jbpnaylon@yahoo.co.uk', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x113fb99d0; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002f5b1c0; teamID='WV77Z2GV8T', teamName='John Naylon', teamType='Individual', username='jbpnaylon@yahoo.co.uk', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x11688b720; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002f5b1c0; teamID='WV77Z2GV8T', teamName='John Naylon', teamType='Individual', username='jbpnaylon@yahoo.co.uk', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x116845a30; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002f5b1c0; teamID='WV77Z2GV8T', teamName='John Naylon', teamType='Individual', username='jbpnaylon@yahoo.co.uk', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x113f26f00; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002f5b1c0; teamID='WV77Z2GV8T', teamName='John Naylon', teamType='Individual', username='jbpnaylon@yahoo.co.uk', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x113f6da50; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002f5b1c0; teamID='WV77Z2GV8T', teamName='John Naylon', teamType='Individual', username='jbpnaylon@yahoo.co.uk', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x11688c3d0; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002f5b1c0; teamID='WV77Z2GV8T', teamName='John Naylon', teamType='Individual', username='jbpnaylon@yahoo.co.uk', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x116824100; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="(null)">
+	<IDEDistributionContext: 0x113fa9bf0; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="(null)">
+	<IDEDistributionContext: 0x113f1b240; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="(null)">
+	<IDEDistributionContext: 0x113faaa00; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007112dd0>", team="(null)">
+	<IDEDistributionContext: 0x2da8104a0; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="(null)", team="(null)">
+	<IDEDistributionContext: 0x116928be0; archive = "<IDEArchive: 0x60000962fa20>", distributionMethod="(null)", team="(null)">
+</IDEDistributionProcessingPipelineContext: 0x2d5026260>
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionCreateDestRootStep
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionCopyItemStep
+2023-12-22 12:25:58 +0000  Running /usr/bin/ditto '-V' '/Users/jnaylon/Library/Developer/Xcode/Archives/2023-12-22/netperf-wrapper 22-12-2023, 12.25.xcarchive/Products/Applications/netperf-wrapper.app' '/var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/Root/Payload/netperf-wrapper.app'
+2023-12-22 12:25:58 +0000  >>> Copying /Users/jnaylon/Library/Developer/Xcode/Archives/2023-12-22/netperf-wrapper 22-12-2023, 12.25.xcarchive/Products/Applications/netperf-wrapper.app 
+2023-12-22 12:25:58 +0000  copying file ./_CodeSignature/CodeResources ... 
+2023-12-22 12:25:58 +0000  4559 bytes for ./_CodeSignature/CodeResources
+2023-12-22 12:25:58 +0000  copying file ./AppIcon60x60@2x.png ... 
+2023-12-22 12:25:58 +0000  5927 bytes for ./AppIcon60x60@2x.png
+2023-12-22 12:25:58 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-TxX-Fx-P3T.nib ... 
+2023-12-22 12:25:58 +0000  983 bytes for ./Base.lproj/Main.storyboardc/UIViewController-TxX-Fx-P3T.nib
+2023-12-22 12:25:58 +0000  copying file ./Base.lproj/Main.storyboardc/TxX-Fx-P3T-view-piF-b9-Fmw.nib ... 
+2023-12-22 12:25:58 +0000  15684 bytes for ./Base.lproj/Main.storyboardc/TxX-Fx-P3T-view-piF-b9-Fmw.nib
+2023-12-22 12:25:58 +0000  copying file ./Base.lproj/Main.storyboardc/Info.plist ... 
+2023-12-22 12:25:58 +0000  258 bytes for ./Base.lproj/Main.storyboardc/Info.plist
+2023-12-22 12:25:58 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib ... 
+2023-12-22 12:25:58 +0000  1225 bytes for ./Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib
+2023-12-22 12:25:58 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib ... 
+2023-12-22 12:25:58 +0000  924 bytes for ./Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib
+2023-12-22 12:25:58 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/Info.plist ... 
+2023-12-22 12:25:58 +0000  258 bytes for ./Base.lproj/LaunchScreen.storyboardc/Info.plist
+2023-12-22 12:25:58 +0000  copying file ./netperf-wrapper ... 
+2023-12-22 12:25:58 +0000  225392 bytes for ./netperf-wrapper
+2023-12-22 12:25:58 +0000  copying file ./Assets.car ... 
+2023-12-22 12:25:58 +0000  44216 bytes for ./Assets.car
+2023-12-22 12:25:58 +0000  copying file ./AppIcon76x76@2x~ipad.png ... 
+2023-12-22 12:25:58 +0000  7717 bytes for ./AppIcon76x76@2x~ipad.png
+2023-12-22 12:25:58 +0000  copying file ./embedded.mobileprovision ... 
+2023-12-22 12:25:58 +0000  13359 bytes for ./embedded.mobileprovision
+2023-12-22 12:25:58 +0000  copying file ./Info.plist ... 
+2023-12-22 12:25:58 +0000  1740 bytes for ./Info.plist
+2023-12-22 12:25:58 +0000  copying file ./PkgInfo ... 
+2023-12-22 12:25:58 +0000  8 bytes for ./PkgInfo
+2023-12-22 12:25:58 +0000  /usr/bin/ditto exited with 0
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionEmbedProfileStep
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionInfoPlistStep
+2023-12-22 12:25:58 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionAppThinningPlistStep
+2023-12-22 12:25:58 +0000  Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionCompileBitcodeStep
+2023-12-22 12:25:58 +0000  Skipping step: IDEDistributionCompileBitcodeStep because it said so
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionCodeSlimmingStep
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionCopyBCSymbolMapsStep
+2023-12-22 12:25:58 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionSymbolsStep
+2023-12-22 12:25:58 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionAppThinningStep
+2023-12-22 12:25:58 +0000  Skipping step: IDEDistributionAppThinningStep because it said so
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionArchThinningStep
+2023-12-22 12:25:58 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/Root/Payload/netperf-wrapper.app/netperf-wrapper' '-verify_arch' 'arm64e'
+2023-12-22 12:25:58 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2023-12-22 12:25:58 +0000  Skipping architecture thinning for item "netperf-wrapper" because arch "arm64e" wasn't found
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionODRStep
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionStripXattrsStep
+2023-12-22 12:25:58 +0000  Running /usr/bin/xattr '-crs' '/var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/Root/Payload/netperf-wrapper.app'
+2023-12-22 12:25:58 +0000  /usr/bin/xattr exited with 0
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionCodesignStep
+2023-12-22 12:25:58 +0000  Entitlements for <IDEDistributionItem: 0x6000099fd2c0; bundleID='com.amazonaws.netperf-wrapper', path='<DVTFilePath:0x600009860c40:'/Users/jnaylon/Library/Developer/Xcode/Archives/2023-12-22/netperf-wrapper 22-12-2023, 12.25.xcarchive/Products/Applications/netperf-wrapper.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x60000d503ac0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x6000006d7540; name='Apple Development: John Naylon (E5R8946SDU)', hash='219039561E6457C126A25BAC8AAA0545E7ED8EBC', serialNumber='400D3A0ABF0D5488CFF331999418EFCB', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-12-08 08:36:00 +0000''>', entitlements='{
+    "application-identifier" = "WV77Z2GV8T.com.amazonaws.netperf-wrapper";
+    "com.apple.developer.networking.slicing.appcategory" =     (
+    );
+    "com.apple.developer.networking.slicing.trafficcategory" =     (
+    );
+    "com.apple.developer.team-identifier" = WV77Z2GV8T;
+    "get-task-allow" = 1;
+}', teamID='WV77Z2GV8T', identifier='com.amazonaws.netperf-wrapper', executablePath='<DVTFilePath:0x6000098072c0:'/Users/jnaylon/Library/Developer/Xcode/Archives/2023-12-22/netperf-wrapper 22-12-2023, 12.25.xcarchive/Products/Applications/netperf-wrapper.app/netperf-wrapper'>', hardenedRuntime='0'>'>: {
+    "application-identifier" = "WV77Z2GV8T.com.amazonaws.netperf-wrapper";
+    "com.apple.developer.networking.slicing.appcategory" =     (
+    );
+    "com.apple.developer.networking.slicing.trafficcategory" =     (
+    );
+    "com.apple.developer.team-identifier" = WV77Z2GV8T;
+    "get-task-allow" = 1;
+}
+2023-12-22 12:25:58 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2023-12-22 12:25:58 +0000  Entitlements for <IDEDistributionItem: 0x6000099fd2c0; bundleID='com.amazonaws.netperf-wrapper', path='<DVTFilePath:0x600009860c40:'/Users/jnaylon/Library/Developer/Xcode/Archives/2023-12-22/netperf-wrapper 22-12-2023, 12.25.xcarchive/Products/Applications/netperf-wrapper.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x60000d503ac0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x6000006d7d80; name='Apple Development: John Naylon (E5R8946SDU)', hash='219039561E6457C126A25BAC8AAA0545E7ED8EBC', serialNumber='400D3A0ABF0D5488CFF331999418EFCB', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-12-08 08:36:00 +0000''>', entitlements='{
+    "application-identifier" = "WV77Z2GV8T.com.amazonaws.netperf-wrapper";
+    "com.apple.developer.networking.slicing.appcategory" =     (
+    );
+    "com.apple.developer.networking.slicing.trafficcategory" =     (
+    );
+    "com.apple.developer.team-identifier" = WV77Z2GV8T;
+    "get-task-allow" = 1;
+}', teamID='WV77Z2GV8T', identifier='com.amazonaws.netperf-wrapper', executablePath='<DVTFilePath:0x6000098072c0:'/Users/jnaylon/Library/Developer/Xcode/Archives/2023-12-22/netperf-wrapper 22-12-2023, 12.25.xcarchive/Products/Applications/netperf-wrapper.app/netperf-wrapper'>', hardenedRuntime='0'>'> are: {
+    "application-identifier" = "WV77Z2GV8T.com.amazonaws.netperf-wrapper";
+    "com.apple.developer.networking.slicing.appcategory" =     (
+    );
+    "com.apple.developer.networking.slicing.trafficcategory" =     (
+    );
+    "com.apple.developer.team-identifier" = WV77Z2GV8T;
+    "get-task-allow" = 1;
+}
+2023-12-22 12:25:58 +0000  Writing entitlements for <IDEDistributionItem: 0x6000099fd2c0; bundleID='com.amazonaws.netperf-wrapper', path='<DVTFilePath:0x600009860c40:'/Users/jnaylon/Library/Developer/Xcode/Archives/2023-12-22/netperf-wrapper 22-12-2023, 12.25.xcarchive/Products/Applications/netperf-wrapper.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x60000d503ac0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x6000006d9d40; name='Apple Development: John Naylon (E5R8946SDU)', hash='219039561E6457C126A25BAC8AAA0545E7ED8EBC', serialNumber='400D3A0ABF0D5488CFF331999418EFCB', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-12-08 08:36:00 +0000''>', entitlements='{
+    "application-identifier" = "WV77Z2GV8T.com.amazonaws.netperf-wrapper";
+    "com.apple.developer.networking.slicing.appcategory" =     (
+    );
+    "com.apple.developer.networking.slicing.trafficcategory" =     (
+    );
+    "com.apple.developer.team-identifier" = WV77Z2GV8T;
+    "get-task-allow" = 1;
+}', teamID='WV77Z2GV8T', identifier='com.amazonaws.netperf-wrapper', executablePath='<DVTFilePath:0x6000098072c0:'/Users/jnaylon/Library/Developer/Xcode/Archives/2023-12-22/netperf-wrapper 22-12-2023, 12.25.xcarchive/Products/Applications/netperf-wrapper.app/netperf-wrapper'>', hardenedRuntime='0'>'> to: /var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/entitlements~~~yY339T
+2023-12-22 12:25:58 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '219039561E6457C126A25BAC8AAA0545E7ED8EBC' '--entitlements' '/var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/entitlements~~~yY339T' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/Root/Payload/netperf-wrapper.app'
+2023-12-22 12:25:58 +0000  /var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/Root/Payload/netperf-wrapper.app: replacing existing signature
+2023-12-22 12:25:58 +0000  /var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/Root/Payload/netperf-wrapper.app: signed app bundle with Mach-O thin (arm64) [com.amazonaws.netperf-wrapper]
+2023-12-22 12:25:58 +0000  /usr/bin/codesign exited with 0
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionZipODRItemStep
+2023-12-22 12:25:58 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionCreateIPAStep
+2023-12-22 12:25:58 +0000  Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/Root' '/var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/Packages/netperf-wrapper.ipa'
+2023-12-22 12:25:58 +0000  >>> Copying /var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/Root 
+2023-12-22 12:25:58 +0000  copying file ./Payload/netperf-wrapper.app/_CodeSignature/CodeResources ... 
+2023-12-22 12:25:58 +0000  4559 bytes for ./Payload/netperf-wrapper.app/_CodeSignature/CodeResources
+2023-12-22 12:25:58 +0000  copying file ./Payload/netperf-wrapper.app/AppIcon60x60@2x.png ... 
+2023-12-22 12:25:58 +0000  5927 bytes for ./Payload/netperf-wrapper.app/AppIcon60x60@2x.png
+2023-12-22 12:25:58 +0000  copying file ./Payload/netperf-wrapper.app/Base.lproj/Main.storyboardc/UIViewController-TxX-Fx-P3T.nib ... 
+2023-12-22 12:25:58 +0000  983 bytes for ./Payload/netperf-wrapper.app/Base.lproj/Main.storyboardc/UIViewController-TxX-Fx-P3T.nib
+2023-12-22 12:25:58 +0000  copying file ./Payload/netperf-wrapper.app/Base.lproj/Main.storyboardc/TxX-Fx-P3T-view-piF-b9-Fmw.nib ... 
+2023-12-22 12:25:58 +0000  15684 bytes for ./Payload/netperf-wrapper.app/Base.lproj/Main.storyboardc/TxX-Fx-P3T-view-piF-b9-Fmw.nib
+copying file ./Payload/netperf-wrapper.app/Base.lproj/Main.storyboardc/Info.plist ... 
+2023-12-22 12:25:58 +0000  258 bytes for ./Payload/netperf-wrapper.app/Base.lproj/Main.storyboardc/Info.plist
+2023-12-22 12:25:58 +0000  copying file ./Payload/netperf-wrapper.app/Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib ... 
+2023-12-22 12:25:58 +0000  1225 bytes for ./Payload/netperf-wrapper.app/Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib
+2023-12-22 12:25:58 +0000  copying file ./Payload/netperf-wrapper.app/Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib ... 
+2023-12-22 12:25:58 +0000  924 bytes for ./Payload/netperf-wrapper.app/Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib
+2023-12-22 12:25:58 +0000  copying file ./Payload/netperf-wrapper.app/Base.lproj/LaunchScreen.storyboardc/Info.plist ... 
+2023-12-22 12:25:58 +0000  258 bytes for ./Payload/netperf-wrapper.app/Base.lproj/LaunchScreen.storyboardc/Info.plist
+2023-12-22 12:25:58 +0000  copying file ./Payload/netperf-wrapper.app/netperf-wrapper ... 
+2023-12-22 12:25:58 +0000  225392 bytes for ./Payload/netperf-wrapper.app/netperf-wrapper
+copying file ./Payload/netperf-wrapper.app/Assets.car ... 
+2023-12-22 12:25:58 +0000  44216 bytes for ./Payload/netperf-wrapper.app/Assets.car
+2023-12-22 12:25:58 +0000  copying file ./Payload/netperf-wrapper.app/AppIcon76x76@2x~ipad.png ... 
+2023-12-22 12:25:58 +0000  7717 bytes for ./Payload/netperf-wrapper.app/AppIcon76x76@2x~ipad.png
+copying file ./Payload/netperf-wrapper.app/embedded.mobileprovision ... 
+2023-12-22 12:25:58 +0000  13359 bytes for ./Payload/netperf-wrapper.app/embedded.mobileprovision
+copying file ./Payload/netperf-wrapper.app/Info.plist ... 
+2023-12-22 12:25:58 +0000  1740 bytes for ./Payload/netperf-wrapper.app/Info.plist
+copying file ./Payload/netperf-wrapper.app/PkgInfo ... 
+2023-12-22 12:25:58 +0000  8 bytes for ./Payload/netperf-wrapper.app/PkgInfo
+2023-12-22 12:25:58 +0000  /usr/bin/ditto exited with 0
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionAppStoreInformationStep
+2023-12-22 12:25:58 +0000  Skipping step: IDEDistributionAppStoreInformationStep because it said so
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionGenerateProcessedDistributionItems
+2023-12-22 12:25:58 +0000  IDEDistributionItem init <DVTFilePath:0x6000098f4e70:'/var/folders/gw/brrn56y55_l7ghb4gpfp7wgc0000gr/T/XcodeDistPipeline.~~~JsmSCU/Root/Payload/netperf-wrapper.app'>
+2023-12-22 12:25:58 +0000  Processing step: IDEDistributionCreateManifestStep

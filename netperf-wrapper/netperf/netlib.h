@@ -33,9 +33,7 @@
 #if defined(HAVE_NETDB_H)
 # include <netdb.h>
 #endif
-#if !defined(HAVE_GETADDRINFO) || !defined(HAVE_GETNAMEINFO)
-# include "missing/getaddrinfo.h"
-#endif
+
 
 #define PAD_TIME 4
 /* library routine specifc defines                                      */
@@ -564,9 +562,9 @@ extern void   demo_interval_final();
 #endif
 #endif
 
-extern  void    netlib_init();
-extern  int     netlib_get_page_size();
-extern  void    install_signal_catchers();
+extern  void    netlib_init(void);
+extern  int     netlib_get_page_size(void);
+extern  void    install_signal_catchers(void);
 extern  struct addrinfo *resolve_host(char hostname[],
 				      char port[],
 				      int af);
@@ -576,23 +574,23 @@ extern  void    establish_control(char hostname[],
 				  char local_hostname[],
 				  char local_port[],
 				  int local_af);
-extern  void    shutdown_control();
-extern  void    init_stat();
-extern  void    send_request();
-extern  void    recv_response();
-extern  void    send_response();
-extern  int     recv_request();
+extern  void    shutdown_control(void);
+extern  void    init_stat(void);
+extern  void    send_request(void);
+extern  void    recv_response(void);
+extern  void    send_response(void);
+extern  int     recv_request(void);
 extern  int     recv_request_timed_n(int n, int seconds);
 extern  void    send_request_n(int n);  /* convert only the first N ints */
 extern  void    recv_response_n(int n); /* of the test-specific data via */
 extern  void    send_response_n(int n); /* htonl/ntonl as required */
 extern  int     recv_request_n(int n);
 extern  void    fixup_request_n(int n);
-extern  void    dump_request();
+extern  void    dump_request(void);
 extern  void    dump_addrinfo(FILE *dumploc, struct addrinfo *info,
 			      char *host, char *port, int family);
 extern  void    start_timer(int time);
-extern  void    stop_timer();
+extern  void    stop_timer(void);
 extern  void    cpu_start(int measure_cpu);
 extern  void    cpu_stop(int measure_cpu, float *elapsed);
 extern  void	calculate_confidence(int confidence_iterations,
@@ -608,10 +606,10 @@ extern  void	retrieve_confident_values(float *elapsed_time,
 			  float *remote_cpu_utilization,
 			  float *local_service_demand,
 			  float *remote_service_demand);
-extern  double  get_result_confid();
-extern  double  get_loc_cpu_confid();
-extern  double  get_rem_cpu_confid();
-extern  void    display_confidence();
+extern  double  get_result_confid(void);
+extern  double  get_loc_cpu_confid(void);
+extern  double  get_rem_cpu_confid(void);
+extern  void    display_confidence(void);
 extern  void    get_sock_buffer(SOCKET sd,
 				enum sock_buffer which,
 				int *effective_sizep);
@@ -619,9 +617,9 @@ extern  void    set_sock_buffer(SOCKET sd,
 				enum sock_buffer which,
 				int requested_size,
 				int *effective_sizep);
-extern  char   *format_units();
+extern  char   *format_units(void);
 
-extern  void    get_remote_system_info();
+extern  void    get_remote_system_info(void);
 
 extern  char    *inet_ftos(int family);
 extern  char    *inet_ttos(int type);
@@ -632,13 +630,13 @@ extern  double  ntohd(double net_double);
 extern  double  htond(double host_double);
 extern  int     inet_nton(int af, const void *src, char *dst, int cnt);
 extern  void    random_ip_address(struct addrinfo *res, int mask_len);
-extern  void    libmain();
+extern  void    libmain(void);
 extern  double  calc_thruput(double units_received);
 extern  double  calc_thruput_interval(double units_received,double elapsed);
 extern  double  calc_thruput_omni(double units_received);
 extern  double  calc_thruput_interval_omni(double units_received,double elapsed);
 extern  float   calibrate_local_cpu(float local_cpu_rate);
-extern  float   calibrate_remote_cpu();
+extern  float   calibrate_remote_cpu(void);
 extern  void    bind_to_specific_processor(int use_cpu_affinity,int use_cpu_map);
 extern int      set_nonblock (SOCKET sock);
 extern char     *find_egress_interface(struct sockaddr *source, struct sockaddr *dest);
@@ -646,12 +644,9 @@ extern char     *find_interface_slot(char *interface_name);
 extern void     find_interface_ids(char *interface_name, int *vendor, int *device, int *sub_vend, int *sub_dev);
 extern void     find_driver_info(char *ifname, char *driver, char *version, char *firmware, char *bus, int len);
 extern void     find_system_info(char **system_model, char **cpu_model, int *cpu_frequency);
-extern int      HIST_get_percentile();
-extern void     HIST_get_stats();
-extern void     HIST_purge();
 extern void     find_security_info(int *enabled, int *type, char **specific);
-extern void     demo_first_timestamp();
-extern void     demo_reset();
+extern void     demo_first_timestamp(void);
+extern void     demo_reset(void);
 extern void     demo_stream_setup(uint32_t a, uint32_t b);
 #ifndef WIN32
 
@@ -676,7 +671,7 @@ extern  void    catcher(int, siginfo_t *,void *);
 #else
 extern  void    catcher(int);
 #endif /* __hpux */
-extern  struct ring_elt *allocate_buffer_ring();
+extern  struct ring_elt *allocate_buffer_ring(int width, int buffer_size, int alignment, int offset);
 extern void access_buffer(char *buffer_ptr,
 			  int length,
 			  int dirty_count,
@@ -760,14 +755,6 @@ extern HANDLE WinTimer;
 #define _stdcall
 #define _cdecl
 #endif
-
-#ifndef HAVE_BCOPY
-#define bcopy(s,d,h) memcpy((d),(s),(h))
-#endif /* HAVE_BCOPY */
-
-#ifndef HAVE_BZERO
-#define bzero(p,h) memset((p),0,(h))
-#endif /* HAVE_BZERO */
 
 #ifndef HAVE_MIN
 #define min(a,b) ((a < b) ? a : b)

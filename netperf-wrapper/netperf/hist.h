@@ -83,8 +83,8 @@ struct histogram_struct {
   int total;
   int64_t sum;
   double sumsquare;
-  int hmin;
-  int hmax;
+  long int hmin;
+  long int hmax;
   int limit;
   int count;
   int producer;
@@ -139,7 +139,7 @@ void HIST_purge(HIST h);
    microseconds.
 */
 
-void HIST_add(register HIST h, int time_delta);
+void HIST_add(register HIST h, long int time_delta);
 
 /*
   HIST_report - create an ASCII report on the contents of a histogram.
@@ -186,7 +186,7 @@ int delta_micro(hrt_t *begin, hrt_t *end);
 #elif defined(WIN32)
 int delta_micro(LARGE_INTEGER *begin, LARGE_INTEGER *end);
 #else
-int delta_micro(struct timeval *begin, struct timeval *end);
+long int delta_micro(struct timeval *begin, struct timeval *end);
 #endif
 
 #endif

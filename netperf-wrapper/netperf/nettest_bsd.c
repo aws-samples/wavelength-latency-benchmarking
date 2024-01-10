@@ -25,7 +25,9 @@
 char	nettest_id[]="\
 @(#)nettest_bsd.c (c) Copyright 1993-2012 Hewlett-Packard Co, 2021 Hewlett Packard Enterprise Development LP. Version 2.6.0";
 #endif /* lint */
-
+#define WANT_OMNI 1
+#define WANT_MIGRATION 1
+#undef WANT_HISTOGRAM
 
 /****************************************************************/
 /*								*/
@@ -70,23 +72,14 @@ char	nettest_id[]="\
 #if HAVE_SYS_STAT_H
 # include <sys/stat.h>
 #endif
-#if STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
-#else
-# if HAVE_STDLIB_H
 #  include <stdlib.h>
-# endif
-#endif
 #if HAVE_STRING_H
 # if !STDC_HEADERS && HAVE_MEMORY_H
 #  include <memory.h>
 # endif
 # include <string.h>
 #endif
-#if HAVE_STRINGS_H
 # include <strings.h>
-#endif
 #if HAVE_INTTYPES_H
 # include <inttypes.h>
 #else
@@ -94,9 +87,7 @@ char	nettest_id[]="\
 #  include <stdint.h>
 # endif
 #endif
-#if HAVE_UNISTD_H
 # include <unistd.h>
-#endif
 #if HAVE_AIO
 # include <assert.h> // XXX
 # include <aio.h>
@@ -169,7 +160,7 @@ char	nettest_id[]="\
 #endif
 
 #if !defined(HAVE_GETADDRINFO) || !defined(HAVE_GETNAMEINFO)
-# include "missing/getaddrinfo.h"
+//# include "missing/getaddrinfo.h"
 #endif
 
 #include "netlib.h"
@@ -203,7 +194,7 @@ int first_burst_size=-1;
  */
 
 int
-  socket_type,          /* used initially by the "omni" tests */
+  socket_type = SOCK_STREAM,          /* used initially by the "omni" tests */
   rss_size_req = -1,	/* requested remote socket send buffer size */
   rsr_size_req = -1,	/* requested remote socket recv buffer size */
   rss_size,		/* initial remote socket send buffer size */
@@ -222,7 +213,6 @@ int
   recv_size,		/* how big are individual receives	*/
   transport_mss_req = -1; /* what maximum segment size is wanted */
 
-static  int confidence_iteration;
 static  char  local_cpu_method;
 static  char  remote_cpu_method;
 
@@ -628,7 +618,7 @@ get_tcp_info(SOCKET socket, int *mss)
 {
 
 #ifdef TCP_MAXSEG
-  netperf_socklen_t sock_opt_len;
+  socklen_t sock_opt_len;
 
   sock_opt_len = sizeof(int);
   if (getsockopt(socket,
@@ -651,7 +641,7 @@ static
 void
 set_tcp_mss(SOCKET socket, int mss) {
 #ifdef TCP_MAXSEG
-  netperf_socklen_t sock_opt_len;
+  socklen_t sock_opt_len;
 
   sock_opt_len = sizeof(int);
   if ((setsockopt(socket,
@@ -1018,30 +1008,6 @@ get_port_number(struct addrinfo *res)
   }
 }
 
-static void
-extract_inet_address_and_port(struct addrinfo *res, void *addr, int len, int *port)
-{
- switch(res->ai_family) {
-  case AF_INET: {
-    struct sockaddr_in *foo = (struct sockaddr_in *)res->ai_addr;
-    *port = foo->sin_port;
-    memcpy(addr,&(foo->sin_addr),min(len,sizeof(foo->sin_addr)));
-    break;
-  }
-#if defined(AF_INET6)
-  case AF_INET6: {
-    struct sockaddr_in6 *foo = (struct sockaddr_in6 *)res->ai_addr;
-    *port = foo->sin6_port;
-    memcpy(addr,&(foo->sin6_addr),min(len,sizeof(foo->sin6_addr)));
-    break;
-  }
-#endif
-  default:
-    *port = 0xDEADBEEF;
-    strncpy(addr,"UNKN FAMILY",len);
-  }
-}
-
 /* this routine will set the port number of the sockaddr in the
    addrinfo to the specified value, based on the address family */
 void
@@ -1111,7 +1077,7 @@ set_sockaddr_family_addr_port(struct sockaddr_storage *sockaddr, int family, voi
 
 /* pull the port and address out of the sockaddr in host format */
 int
-get_sockaddr_family_addr_port(struct sockaddr_storage *sockaddr, int family, void *addr, int *port)
+get_sockaddr_family_addr_port(struct sockaddr_storage *sockaddr, int family, void *addr, uint32_t *port)
 {
   struct sockaddr_in *sin = (struct sockaddr_in *)sockaddr;
 
@@ -1162,7 +1128,7 @@ int
 set_socket_tos(SOCKET sock, int family, int socket_tos) {
 
   int my_tos = -3;
-  netperf_socklen_t sock_opt_len;
+  socklen_t sock_opt_len;
 
   switch (family) {
 #if defined(IP_TOS)
@@ -1240,7 +1206,6 @@ create_data_socket(struct addrinfo *res)
   SOCKET temp_socket;
   int one = 1;
   int on  = 1;
-  netperf_socklen_t sock_opt_len;
 
   /*set up the data socket                        */
   temp_socket = socket(res->ai_family,
@@ -5052,13 +5017,13 @@ Size (bytes)\n\
 /* didn't feel it was necessary. */
 
 void
-recv_tcp_stream()
+recv_tcp_stream(void)
 {
 
   struct sockaddr_storage myaddr_in, peeraddr_in;
   SOCKET s_listen,s_data;
-  netperf_socklen_t addrlen;
-  int	len;
+  socklen_t addrlen;
+  long int	len = SOCKET_ERROR;
   unsigned int	receive_calls;
   float	elapsed_time;
   double   bytes_received;
@@ -5458,7 +5423,7 @@ recv_tcp_stream()
 	    bytes_received,
 	    receive_calls);
     fprintf(where,
-	    "                 len %d\n",
+	    "                 len %ld\n",
 	    len);
     fflush(where);
   }
@@ -5476,7 +5441,7 @@ recv_tcp_stream()
    didn't feel it was necessary. */
 
 void
-recv_tcp_maerts()
+recv_tcp_maerts(void)
 {
 
   struct sockaddr_storage myaddr_in, peeraddr_in;
@@ -5485,8 +5450,8 @@ recv_tcp_maerts()
   char  port_buffer[PORTBUFSIZE];
 
   SOCKET	s_listen,s_data;
-  netperf_socklen_t 	addrlen;
-  int	len;
+  socklen_t 	addrlen;
+  long int	len;
   unsigned int	send_calls;
   float	elapsed_time;
   double   bytes_sent = 0.0 ;
@@ -5816,7 +5781,7 @@ recv_tcp_maerts()
 	    bytes_sent,
 	    send_calls);
     fprintf(where,
-	    "                 len %d\n",
+	    "                 len %ld\n",
 	    len);
     fflush(where);
   }
@@ -7270,7 +7235,7 @@ bytes   bytes    secs            #      #   %s/sec %% %c%c     us/KB\n\n";
  /* UDP_STREAM performance test. */
 
 void
-recv_udp_stream()
+recv_udp_stream(void)
 {
   struct ring_elt *recv_ring;
   struct addrinfo *local_res;
@@ -7279,12 +7244,12 @@ recv_udp_stream()
 
   struct sockaddr_storage myaddr_in;
   SOCKET	s_data;
-  netperf_socklen_t 	addrlen;
+  socklen_t 	addrlen;
   struct sockaddr_storage remote_addr;
-  netperf_socklen_t remote_addrlen;
+  socklen_t remote_addrlen;
 
-  int	len = 0;
-  unsigned int	bytes_received = 0;
+  long int	len = 0;
+  long int	bytes_received = 0;
   float	elapsed_time;
 
   int	message_size;
@@ -7564,7 +7529,7 @@ recv_udp_stream()
 
   if (debug) {
     fprintf(where,
-	    "recv_udp_stream: got %d bytes\n",
+	    "recv_udp_stream: got %ld bytes\n",
 	    bytes_received);
     fflush(where);
   }
@@ -8280,7 +8245,7 @@ bytes  bytes  bytes   bytes  secs.   per sec  %% %c    %% %c    us/Tr   us/Tr\n\
  /* this routine implements the receive side (netserver) of a UDP_RR */
  /* test. */
 void
-recv_udp_rr()
+recv_udp_rr(void)
 {
 
   struct ring_elt *recv_ring;
@@ -8293,11 +8258,11 @@ recv_udp_rr()
   struct sockaddr_storage        myaddr_in;
   struct sockaddr_storage    peeraddr;
   SOCKET	s_data;
-  netperf_socklen_t 	addrlen;
+  socklen_t 	addrlen;
   int	trans_received;
   int	trans_remaining;
-  int   request_bytes_recvd;
-  int   response_bytes_sent;
+  long int   request_bytes_recvd;
+  long int   response_bytes_sent;
   float	elapsed_time;
 
   struct	udp_rr_request_struct	*udp_rr_request;
@@ -8593,7 +8558,7 @@ recv_udp_rr()
  /* this routine implements the receive (netserver) side of a TCP_RR */
  /* test */
 void
-recv_tcp_rr()
+recv_tcp_rr(void)
 {
 
   struct ring_elt *send_ring;
@@ -8606,12 +8571,12 @@ recv_tcp_rr()
   struct	sockaddr_storage        myaddr_in,
   peeraddr_in;
   SOCKET	s_listen,s_data;
-  netperf_socklen_t 	addrlen;
+  socklen_t 	addrlen;
   char	*temp_message_ptr;
   int	trans_received;
   int	trans_remaining;
-  int	bytes_sent;
-  int	request_bytes_recvd;
+  long int	bytes_sent;
+  long int	request_bytes_recvd;
   int	request_bytes_remaining;
   int	timed_out = 0;
   int   sock_closed = 0;
@@ -8964,7 +8929,7 @@ recv_tcp_rr()
 
 
 void
-loc_cpu_rate()
+loc_cpu_rate(void)
 {
 #if defined(USE_LOOPER)
   float dummy;
@@ -8999,7 +8964,7 @@ loc_cpu_rate()
 }
 
 void
-rem_cpu_rate()
+rem_cpu_rate(void)
 {
   /* this test is much like the local variant, except that it works for */
   /* the remote system, so in this case, we do pay attention to the */
@@ -9705,7 +9670,7 @@ newport:
 #endif /* WANT_MIGRATION */
 
 void
-recv_tcp_conn_rr()
+recv_tcp_conn_rr(void)
 {
 
   char  *message;
@@ -9715,14 +9680,14 @@ recv_tcp_conn_rr()
 
   struct	sockaddr_storage        myaddr_in, peeraddr_in;
   SOCKET	s_listen,s_data;
-  netperf_socklen_t 	addrlen;
+  socklen_t 	addrlen;
   char	*recv_message_ptr;
   char	*send_message_ptr;
   char	*temp_message_ptr;
   int	trans_received;
   int	trans_remaining;
-  int	bytes_sent;
-  int	request_bytes_recvd;
+  long int	bytes_sent;
+  long int	request_bytes_recvd;
   int	request_bytes_remaining;
   int	timed_out = 0;
   float	elapsed_time;
@@ -12292,7 +12257,7 @@ Send   Recv    Send   Recv\n\
   int	trans_remaining;
   double	bytes_xferd;
   int	rsp_bytes_left = 1;
-  int	rsp_bytes_recvd;
+  long int	rsp_bytes_recvd;
 
   float	local_cpu_utilization;
   float	local_service_demand;
@@ -12823,7 +12788,7 @@ Send   Recv    Send   Recv\n\
 
 
 void
-recv_tcp_cc()
+recv_tcp_cc(void)
 {
 
   char  *message;
@@ -12834,7 +12799,7 @@ recv_tcp_cc()
 
   struct	sockaddr_storage        myaddr_in,  peeraddr_in;
   SOCKET	s_listen,s_data;
-  netperf_socklen_t 	addrlen;
+  socklen_t 	addrlen;
   char	*recv_message_ptr;
   char	*send_message_ptr;
   int	trans_received;
@@ -13163,7 +13128,7 @@ recv_tcp_cc()
 }
 
 void
-print_sockets_usage()
+print_sockets_usage(void)
 {
 
   fwrite(sockets_usage, sizeof(char), strlen(sockets_usage), stdout);
@@ -13172,7 +13137,7 @@ print_sockets_usage()
 }
 
 void
-scan_sockets_args(int argc, char *argv[])
+scan_sockets_args(int argc, char *const argv[])
 
 {
 

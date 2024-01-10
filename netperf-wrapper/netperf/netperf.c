@@ -32,15 +32,8 @@ char	netperf_id[]="\
 
 #include <stdio.h>
 #include <stdlib.h>
-#if HAVE_STRING_H
-# if !STDC_HEADERS && HAVE_MEMORY_H
-#  include <memory.h>
-# endif
-# include <string.h>
-#endif
-#ifdef HAVE_STRINGS_H
+#include <string.h>
 #include <strings.h>
-#endif
 
 /* FreeBSD doesn't like socket.h before types are set. */
 #if __FreeBSD__
@@ -88,11 +81,22 @@ char	netperf_id[]="\
  /* this file contains the main for the netperf program. all the other
     routines can be found in the file netsh.c */
 
+/* add some callbacks to hook into the GUI */
+
+void *f_user_data = NULL;
+void (*f_setup_complete)(int port, void *user_data) = NULL;
+void (*f_exit)(const char *t, void *user_data) = NULL;
 
 int _cdecl
-main(int argc, char *argv[])
+netperf_main(int argc, char * const argv[],
+             void *user_data,
+             void (*setup_complete)(int, void *),
+             void (*exitfunction)(const char *, void *))
 {
-
+    f_setup_complete = setup_complete;
+    f_user_data = user_data;
+    f_exit = exitfunction;
+ 
 #ifdef WIN32
   WSADATA	wsa_data ;
 
@@ -106,7 +110,7 @@ main(int argc, char *argv[])
   netlib_init();
   /* the call to set_defaults() is gone because we can initialize in
      declarations (or is that definitions) unlike the old days */
-  scan_cmd_line(argc,argv);
+  scan_cmd_line(argc, argv);
 
   if (debug) {
     dump_globals();
@@ -131,7 +135,7 @@ main(int argc, char *argv[])
       send_request_n(0);
     }
   }
-
+    
   if (strcasecmp(test_name,"TCP_STREAM") == 0) {
     send_tcp_stream(host_name);
   }
@@ -272,11 +276,11 @@ main(int argc, char *argv[])
 	   "Please verify that you have the correct test name, \n"
 	   "and that test family has been compiled into this netperf.\n",
 	   test_name);
-    exit(1);
+      f_exit("Unknown test", user_data);
   }
 
   if (!no_control) {
-    shutdown_control();
+//    shutdown_control();
   }
 
 #ifdef WIN32

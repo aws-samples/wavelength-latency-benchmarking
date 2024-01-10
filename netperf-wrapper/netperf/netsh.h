@@ -33,7 +33,6 @@
 #define		TEST_PORT	"12865"
 
 /* output controlling variables                                         */
-#define 	DEBUG 0		/* debugging level			*/
 #define 	VERBOSITY 0	/* verbosity level			*/
 
 /* the end-test conditions for the tests - either transactions, bytes,  */
@@ -110,13 +109,13 @@ extern int      parse_address_family(char family_string[]);
 extern int      parse_socket_type(char socket_string[]);
 extern int      parse_protocol(char protocol_string[]);
 extern int      parse_direction(char direction_string[]);
-extern void     set_defaults();
-extern void     scan_cmd_line(int argc, char *argv[]);
-extern void     dump_globals();
+extern void     set_defaults(void);
+extern void     scan_cmd_line(int argc, char * const argv[]);
+extern void     dump_globals(void);
 extern void     break_args(char *s, char *arg1, char *arg2);
 extern void     break_args_explicit(char *s, char *arg1, char *arg2);
 extern void     break_args_explicit_sep(char *s, int sep, char *arg1, char *arg2);
-extern void     print_netserver_usage();
+extern void     print_netserver_usage(void);
 
 /* output controlling variables                                         */
 extern int

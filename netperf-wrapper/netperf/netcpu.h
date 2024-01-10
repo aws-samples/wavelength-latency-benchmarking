@@ -26,7 +26,7 @@
 
 extern void  cpu_util_init(void);
 extern void  cpu_util_terminate(void);
-extern int   get_cpu_method();
+extern int   get_cpu_method(void);
 
 #ifdef WIN32
 /* +*+ temp until I figure out what header this is in; I know it's

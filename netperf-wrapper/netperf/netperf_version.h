@@ -10,3 +10,4 @@
 
 
 #endif /* netperf_version_h */
+#define NETPERF_VERSION "2.7.1"

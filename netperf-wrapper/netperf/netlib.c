@@ -171,11 +171,12 @@ char    netlib_id[]="\
 #endif
 
 #if !defined(HAVE_GETADDRINFO) || !defined(HAVE_GETNAMEINFO)
-# include "missing/getaddrinfo.h"
+//# include "missing/getaddrinfo.h"
 #endif
 
-
+#ifdef WANT_HISTOGRAM
 #include "hist.h"
+#endif
 
 /****************************************************************/
 /*                                                              */
@@ -302,6 +303,10 @@ char
 
 #endif /* WIN32 */
 
+extern void *f_user_data;
+extern void (*f_setup_complete)(int port, void *user_data);
+extern void (*f_exit)(const char *t, void *user_data);
+
 static int measuring_cpu;
 int
 netlib_get_page_size(void) {
@@ -325,7 +330,7 @@ SYSTEM_INFO SystemInfo;
  return(8192L);
 #endif  /* WIN32 */
 #else
- return(sysconf(_SC_PAGE_SIZE));
+ return((int)sysconf(_SC_PAGE_SIZE));
 #endif /* _SC_PAGE_SIZE */
 
 }
@@ -733,7 +738,7 @@ htond(double host_double)
    this raj 20101130 */
 
 unsigned int
-rand32(){
+rand32(void){
   return (unsigned int)rand() * 2 + rand() % 2;
 }
 
@@ -881,7 +886,7 @@ int netperf_sendfile(SOCKET send_socket, struct ring_elt *send_ring) {
 /* one of these days, this should be abstracted-out just like the CPU
    util stuff.  raj 2005-01-27 */
 int
-get_num_cpus()
+get_num_cpus(void)
 
 {
 
@@ -907,7 +912,7 @@ get_num_cpus()
   /* MW: <unistd.h> was included for non-Windows systems above. */
   /* Thus if _SC_NPROC_ONLN is defined, we should be able to use sysconf. */
 #ifdef _SC_NPROCESSORS_ONLN
-  temp_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+  temp_cpus = (int)sysconf(_SC_NPROCESSORS_ONLN);
 
 #ifdef USE_PERFSTAT
   temp_cpus = perfstat_cpu(NULL,NULL, sizeof(perfstat_cpu_t), 0);
@@ -979,7 +984,7 @@ gettimeofday( struct timeval *tv , struct timezone *not_used )
 
  /* this routine will disable any running timer */
 void
-stop_timer()
+stop_timer(void)
 {
 #ifndef WIN32
   alarm(0);
@@ -1079,7 +1084,7 @@ catcher(int sig)
 #endif /* WIN32 */
 
 void
-install_signal_catchers()
+install_signal_catchers(void)
 
 {
   /* just a simple little routine to catch a bunch of signals */
@@ -1383,7 +1388,7 @@ start_itimer(unsigned int interval_len_msec )
 #endif /* WANT_INTERVALS */
 
 void
-netlib_init_cpu_map() {
+netlib_init_cpu_map(void) {
 
   int i;
 #ifdef HAVE_MPCTL
@@ -1423,7 +1428,7 @@ netlib_init_cpu_map() {
 /****************************************************************/
 
 void
-netlib_init()
+netlib_init(void)
 {
   int i;
 
@@ -2010,7 +2015,7 @@ alloc_sendfile_buf_ring(int width,
  /***********************************************************************/
 
 void
-dump_request()
+dump_request(void)
 {
 int counter = 0;
 fprintf(where,"request contents:\n");
@@ -2041,7 +2046,7 @@ fflush(where);
  /***********************************************************************/
 
 void
-dump_response()
+dump_response(void)
 {
 int counter = 0;
 
@@ -2177,7 +2182,7 @@ format_cpu_method(int method)
 }
 
 char *
-format_units()
+format_units(void)
 {
   static        char    unitbuf[64];
 
@@ -2229,7 +2234,7 @@ format_units()
 /****************************************************************/
 
 void
-shutdown_control()
+shutdown_control(void)
 {
 
   char  *buf = (char *)&netperf_response;
@@ -2239,6 +2244,13 @@ shutdown_control()
   fd_set        readfds;
   struct        timeval timeout;
 
+  if (netlib_control == INVALID_SOCKET) {
+     /* let's consider this job done to avoid recursion */
+    if (where) fprintf(where,
+              "shutdown_control: shutdown of already-invalid control connection requested.\n");
+     return;
+  }
+    
   if (debug) {
     fprintf(where,
             "shutdown_control: shutdown of control connection requested.\n");
@@ -2248,10 +2260,9 @@ shutdown_control()
   /* first, we say that we will be sending no more data on the */
   /* connection */
   if (shutdown(netlib_control,1) == SOCKET_ERROR) {
-    Print_errno(where,
-            "shutdown_control: error in shutdown");
-    fflush(where);
-    exit(1);
+      f_exit("shutdown_control: error in shutdown\n", f_user_data);
+      netlib_control = INVALID_SOCKET;
+      return;
   }
 
   /* Now, we hang on a select waiting for the socket to become
@@ -2274,15 +2285,21 @@ shutdown_control()
              0,
              0,
              &timeout) != 1) {
-    Print_errno(where,
-            "shutdown_control: no response received");
-    fflush(where);
-    exit(1);
+      char *string = NULL;
+      asprintf(&string, "shutdown_control: no response received: %s\n", strerror(errno));
+      f_exit(string, f_user_data);
+      if (string) {
+          fprintf(where, "%s", string);
+          free(string);
+      }
+      fflush(where);
+      netlib_control = INVALID_SOCKET;
+      return;
   }
 
   /* we now assume that the socket has come ready for reading */
   recv(netlib_control, buf, buflen,0);
-
+  netlib_control = INVALID_SOCKET;
 }
 
 /*
@@ -2538,9 +2555,8 @@ send_request_n(int n)
            (char *)&netperf_request,
            sizeof(netperf_request),
            0) != sizeof(netperf_request)) {
-    perror("send_request: send call failure");
-
-    exit(1);
+      f_exit("send_request: send call failure (usually means no server running)\n", f_user_data);
+      return;
   }
 }
 
@@ -2557,7 +2573,7 @@ send_request_n(int n)
  /***********************************************************************/
 
 void
-send_request()
+send_request(void)
 {
 
   /* pass the processor affinity request value to netserver this is a
@@ -2580,7 +2596,7 @@ void
 send_response_n(int n)
 {
   int   counter, count;
-  int	bytes_sent;
+  long int	bytes_sent;
 
   if (n < 0) count = sizeof(netperf_request)/4;
   else count = 2 + n;
@@ -2634,7 +2650,7 @@ send_response_n(int n)
 			 sizeof(netperf_response),
 			 0)) != sizeof(netperf_response)) {
     perror("send_response_n: send call failure");
-    fprintf(where, "BytesSent: %d\n", bytes_sent);
+    fprintf(where, "BytesSent: %ld\n", bytes_sent);
     exit(1);
   }
 
@@ -2653,7 +2669,7 @@ send_response_n(int n)
  /***********************************************************************/
 
 void
-send_response()
+send_response(void)
 {
 
   send_response_n(-1);
@@ -2693,7 +2709,7 @@ fixup_request_n(int n)
 int
 recv_request_timed_n(int n, int seconds)
 {
-  int     tot_bytes_recvd,
+  long int     tot_bytes_recvd,
     bytes_recvd,
     bytes_left;
   char    *buf = (char *)&netperf_request;
@@ -2759,7 +2775,7 @@ recv_request_timed_n(int n, int seconds)
 
   if (debug) {
     fprintf(where,
-	    "recv_request: received %d bytes of request.\n",
+	    "recv_request: received %ld bytes of request.\n",
 	    tot_bytes_recvd);
     fflush(where);
   }
@@ -2790,7 +2806,7 @@ recv_request_timed_n(int n, int seconds)
       dump_request();
 
     fprintf(where,
-	    "recv_request: partial request received of %d bytes\n",
+	    "recv_request: partial request received of %ld bytes\n",
 	    tot_bytes_recvd);
     fflush(where);
     close(server_sock);
@@ -2839,7 +2855,7 @@ recv_request_n(int n)
  /***********************************************************************/
 
 int
-recv_request()
+recv_request(void)
 {
 
   return recv_request_n(-1);
@@ -2849,7 +2865,7 @@ recv_request()
 void
 recv_response_timed_n(int addl_time, int n)
 {
-  int     tot_bytes_recvd,
+  long int     tot_bytes_recvd,
           bytes_recvd = 0,
           bytes_left;
   char    *buf = (char *)&netperf_response;
@@ -2910,12 +2926,17 @@ recv_response_timed_n(int addl_time, int n)
 			0,
 			0,
 			&timeout)) != 1) {
-    fprintf(where,
+    char *string = NULL;
+    asprintf(&string,
 	    "%s: no response received. errno %d counter %d\n",
 	    __FUNCTION__,
 	    errno,
 	    counter);
-    exit(1);
+      f_exit(string, f_user_data);
+      if (string) {
+          free(string);
+      }
+      return;
   }
 
   while ((tot_bytes_recvd != buflen) &&
@@ -2926,7 +2947,7 @@ recv_response_timed_n(int addl_time, int n)
   }
 
   if (debug) {
-    fprintf(where,"recv_response: received a %d byte response\n",
+    fprintf(where,"recv_response: received a %ld byte response\n",
 	    tot_bytes_recvd);
     fflush(where);
   }
@@ -2938,17 +2959,28 @@ recv_response_timed_n(int addl_time, int n)
   }
 
   if (bytes_recvd == SOCKET_ERROR) {
-    perror("recv_response");
-    exit(1);
+      char *string;
+      asprintf(&string, "recv_response: %s\n", strerror(errno));
+      f_exit(string, f_user_data);
+      if (string) {
+          free(string);
+      }
+      return;
   }
   if (tot_bytes_recvd < buflen) {
-    fprintf(stderr,
-	    "recv_response: partial response received: %d bytes\n",
+      char *string;
+      asprintf(&string,
+	    "recv_response: partial response received: %ld bytes\n",
 	    tot_bytes_recvd);
-    fflush(stderr);
-    if (debug > 1)
-      dump_response();
-    exit(1);
+      fprintf(stderr, "%s", string);
+      fflush(stderr);
+      if (debug > 1)
+          dump_response();
+      f_exit(string, f_user_data);
+      if (string) {
+          free(string);
+      }
+      return;
   }
   if (debug > 1) {
     dump_response();
@@ -2995,7 +3027,7 @@ recv_response_timed(int addl_time)
 }
 
 void
-recv_response()
+recv_response(void)
 {
   /* 0 => no additional time, -1 => convert all test-specific data */
   recv_response_timed_n(0,-1);
@@ -3056,7 +3088,7 @@ lo_32(big_int)
 #endif /* USE_PSTAT || USE_SYSCTL */
 
 
-void libmain()
+void libmain(void)
 {
 fprintf(where,"hello world\n");
 fprintf(where,"debug: %d\n",debug);
@@ -3068,7 +3100,7 @@ get_sock_buffer (SOCKET sd, enum sock_buffer which, int *effective_sizep)
 {
 #ifdef SO_SNDBUF
   int optname = (which == SEND_BUFFER) ? SO_SNDBUF : SO_RCVBUF;
-  netperf_socklen_t sock_opt_len;
+  socklen_t sock_opt_len;
 
   sock_opt_len = sizeof(*effective_sizep);
   if (getsockopt(sd, SOL_SOCKET, optname, (char *)effective_sizep,
@@ -3272,7 +3304,7 @@ establish_control_internal(char *hostname,
 			   int   locfam)
 {
   int not_connected;
-  SOCKET control_sock;
+  SOCKET control_sock = INVALID_SOCKET;
 
   struct addrinfo  *local_res;
   struct addrinfo  *remote_res;
@@ -3417,7 +3449,7 @@ establish_control_internal(char *hostname,
   return(control_sock);
 }
 
-void
+int
 establish_control(char *hostname,
 		  char *port,
 		  int   remfam,
@@ -3441,8 +3473,9 @@ establish_control(char *hostname,
 	    localhost,localport,inet_ftos(locfam),
 	    hostname,port,inet_ftos(remfam));
     fflush(where);
-    exit(INVALID_SOCKET);
+    return(INVALID_SOCKET);
   }
+  return 0;
 }
 
 
@@ -3460,7 +3493,7 @@ establish_control(char *hostname,
  /***********************************************************************/
 
 char *
-get_id()
+get_id(void)
 {
 	static char id_string[80];
 #ifdef WIN32
@@ -3517,7 +3550,7 @@ struct  utsname         system_name;
  /***********************************************************************/
 
 void
-identify_local()
+identify_local(void)
 {
 
 char *local_id;
@@ -3548,7 +3581,7 @@ fprintf(where,"%s\n",
  /***********************************************************************/
 
 void
-identify_remote()
+identify_remote(void)
 {
 
   char    *remote_id="";
@@ -3596,7 +3629,7 @@ cpu_stop(int measure_cpu, float *elapsed)
 
 {
 
-  int     sec,
+  long int     sec,
     usec;
 
   if (measure_cpu) {
@@ -3901,7 +3934,7 @@ calibrate_local_cpu(float local_cpu_rate)
 
 
 float
-calibrate_remote_cpu()
+calibrate_remote_cpu(void)
 {
   float remrate;
 
@@ -4210,7 +4243,7 @@ void demo_rr_interval(uint32_t units) {
 /* #include "sys.h" */
 
 /*#define HIST_TEST*/
-
+#ifdef WANT_HISTOGRAM
 HIST
 HIST_new_n(int max_outstanding) {
   HIST h;
@@ -4285,7 +4318,7 @@ HIST_purge(HIST h) {
 }
 
 void
-HIST_add(register HIST h, int time_delta){
+HIST_add(register HIST h, long int time_delta){
    register float val;
    register int base = HIST_NUM_OF_BUCKET / 10;
 
@@ -4389,7 +4422,7 @@ HIST_report(HIST h){
    fprintf(where,"HIST_TOTAL:      %d\n", h->total);
    if (debug) {
      fprintf(where,
-	     "sum %"PRIi64", sumsquare %f, limit %d count %d\n",
+	     "sum %lld, sumsquare %f, limit %d count %d\n",
 	     h->sum,
 	     h->sumsquare,
 	     h->limit,
@@ -4469,7 +4502,7 @@ HIST_get_percentile(HIST h, const double percentile){
 
 /* get basic stats */
 void
-HIST_get_stats(HIST h, int *min, int *max, double *mean, double *stddev){
+HIST_get_stats(HIST h, long int *min, long int *max, double *mean, double *stddev){
   *min = h->hmin;
   *max = h->hmax;
   if (h->total){
@@ -4558,12 +4591,12 @@ HIST_timestamp(struct timeval *timestamp)
 
  /* return the difference (in micro seconds) between two timeval */
  /* timestamps */
-int
+long int
 delta_micro(struct timeval *begin,struct timeval *end)
 
 {
 
-  int usecs, secs;
+  long int usecs, secs;
 
   if (end->tv_usec < begin->tv_usec) {
     /* borrow a second from the tv_sec */
@@ -4628,6 +4661,7 @@ HIST_timestamp_stop_add(HIST h) {
   h->count -= 1;
 
 }
+#endif
 
 
 
@@ -4686,7 +4720,7 @@ double
 /*                                                                      */
 /************************************************************************/
 void
-init_stat()
+init_stat(void)
 {
         measured_sum_result=0.0;
         measured_square_sum_result=0.0;
@@ -4721,7 +4755,7 @@ init_stat()
         measured_mean_remote_time=0.0;
 
         measured_fails = 0.0;
-        measured_local_results=0.0,
+        measured_local_results=0.0;
         confidence=-10.0;
 }
 
@@ -4951,19 +4985,19 @@ retrieve_confident_values(float *elapsed_time,
 }
 
 double
-get_result_confid()
+get_result_confid(void)
 {
   return (double) (100.0 * (interval - result_confid));
 }
 
 double
-get_loc_cpu_confid()
+get_loc_cpu_confid(void)
 {
   return (double) (100.0 * (interval - loc_cpu_confid));
 }
 
 double
-get_rem_cpu_confid()
+get_rem_cpu_confid(void)
 {
   return (double) (100.0 * (interval - rem_cpu_confid));
 }
@@ -4972,7 +5006,7 @@ get_rem_cpu_confid()
    desired confidence in the results. it will print the achieved
    confidence to "where" raj 11/94 */
 void
-display_confidence()
+display_confidence(void)
 
 {
   fprintf(where,

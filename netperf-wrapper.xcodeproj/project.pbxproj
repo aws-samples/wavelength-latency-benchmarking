@@ -9,26 +9,52 @@
 /* Begin PBXBuildFile section */
 		4B71785E2B2239A000686113 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B71785D2B2239A000686113 /* AppDelegate.m */; };
 		4B7178612B2239A000686113 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7178602B2239A000686113 /* SceneDelegate.m */; };
-		4B7178642B2239A000686113 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7178632B2239A000686113 /* ViewController.m */; };
 		4B7178672B2239A000686113 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B7178652B2239A000686113 /* Main.storyboard */; };
 		4B7178692B2239A100686113 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B7178682B2239A100686113 /* Assets.xcassets */; };
 		4B71786C2B2239A100686113 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B71786A2B2239A100686113 /* LaunchScreen.storyboard */; };
 		4B71786F2B2239A100686113 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B71786E2B2239A100686113 /* main.m */; };
+		4B7178892B223BEA00686113 /* nettest_bsd.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B7178782B223BE900686113 /* nettest_bsd.c */; };
+		4B71788A2B223BEA00686113 /* netsh.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B71787E2B223BE900686113 /* netsh.c */; };
+		4B71788D2B223BEA00686113 /* nettest_omni.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B7178822B223BE900686113 /* nettest_omni.c */; };
+		4B71788E2B223BEA00686113 /* netperf.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B7178832B223BE900686113 /* netperf.c */; };
+		4B7178902B223BEA00686113 /* netlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B7178852B223BEA00686113 /* netlib.c */; };
+		4B7178982B2319CB00686113 /* netcpu_sysctl.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B7178972B2319CA00686113 /* netcpu_sysctl.c */; };
+		4BAA4A402B25D70F00B53948 /* NetperfWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BAA4A3F2B25D70F00B53948 /* NetperfWrapper.m */; };
+		4BD330AF2B2734D200B0B257 /* net_uuid.c in Sources */ = {isa = PBXBuildFile; fileRef = 4BD330AD2B2734D200B0B257 /* net_uuid.c */; };
+		4BD330B02B2734D200B0B257 /* dscp.c in Sources */ = {isa = PBXBuildFile; fileRef = 4BD330AE2B2734D200B0B257 /* dscp.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B09D9F12B2339E800314943 /* netperf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = netperf.h; sourceTree = "<group>"; };
+		4B50355F2B3095A60004DE36 /* netserver.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = netserver.yaml; sourceTree = "<group>"; };
 		4B7178592B2239A000686113 /* netperf-wrapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "netperf-wrapper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B71785C2B2239A000686113 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4B71785D2B2239A000686113 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4B71785F2B2239A000686113 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		4B7178602B2239A000686113 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		4B7178622B2239A000686113 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4B7178632B2239A000686113 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4B7178662B2239A000686113 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4B7178682B2239A100686113 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4B71786B2B2239A100686113 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4B71786D2B2239A100686113 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B71786E2B2239A100686113 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4B7178762B223BE900686113 /* nettest_bsd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nettest_bsd.h; sourceTree = "<group>"; };
+		4B7178782B223BE900686113 /* nettest_bsd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nettest_bsd.c; sourceTree = "<group>"; };
+		4B71787B2B223BE900686113 /* netlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netlib.h; sourceTree = "<group>"; };
+		4B71787D2B223BE900686113 /* netsh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netsh.h; sourceTree = "<group>"; };
+		4B71787E2B223BE900686113 /* netsh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = netsh.c; sourceTree = "<group>"; };
+		4B7178822B223BE900686113 /* nettest_omni.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nettest_omni.c; sourceTree = "<group>"; };
+		4B7178832B223BE900686113 /* netperf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = netperf.c; sourceTree = "<group>"; };
+		4B7178852B223BEA00686113 /* netlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = netlib.c; sourceTree = "<group>"; };
+		4B7178922B230F5E00686113 /* hist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hist.h; sourceTree = "<group>"; };
+		4B7178942B23109700686113 /* netperf-build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "netperf-build.sh"; sourceTree = "<group>"; };
+		4B7178952B23128700686113 /* netperf_version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = netperf_version.h; sourceTree = "<group>"; };
+		4B7178972B2319CA00686113 /* netcpu_sysctl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = netcpu_sysctl.c; sourceTree = "<group>"; };
+		4B88EC0B2B348061007EB357 /* netperf-wrapper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "netperf-wrapper.entitlements"; sourceTree = "<group>"; };
+		4BAA4A3E2B25D70F00B53948 /* NetperfWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetperfWrapper.h; sourceTree = "<group>"; };
+		4BAA4A3F2B25D70F00B53948 /* NetperfWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetperfWrapper.m; sourceTree = "<group>"; };
+		4BD330AD2B2734D200B0B257 /* net_uuid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = net_uuid.c; path = "../../../../Downloads/netperf-master/src/net_uuid.c"; sourceTree = "<group>"; };
+		4BD330AE2B2734D200B0B257 /* dscp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dscp.c; path = "../../../../Downloads/netperf-master/src/dscp.c"; sourceTree = "<group>"; };
+		4BDECF652B2A04C300C3D06C /* netcpu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = netcpu.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +71,7 @@
 		4B7178502B2239A000686113 = {
 			isa = PBXGroup;
 			children = (
+				4B7178932B23106300686113 /* backend */,
 				4B71785B2B2239A000686113 /* netperf-wrapper */,
 				4B71785A2B2239A000686113 /* Products */,
 			);
@@ -61,19 +88,52 @@
 		4B71785B2B2239A000686113 /* netperf-wrapper */ = {
 			isa = PBXGroup;
 			children = (
+				4B88EC0B2B348061007EB357 /* netperf-wrapper.entitlements */,
+				4B7178752B223AE900686113 /* netperf */,
 				4B71785C2B2239A000686113 /* AppDelegate.h */,
 				4B71785D2B2239A000686113 /* AppDelegate.m */,
 				4B71785F2B2239A000686113 /* SceneDelegate.h */,
 				4B7178602B2239A000686113 /* SceneDelegate.m */,
-				4B7178622B2239A000686113 /* ViewController.h */,
-				4B7178632B2239A000686113 /* ViewController.m */,
 				4B7178652B2239A000686113 /* Main.storyboard */,
+				4BAA4A3E2B25D70F00B53948 /* NetperfWrapper.h */,
+				4BAA4A3F2B25D70F00B53948 /* NetperfWrapper.m */,
 				4B7178682B2239A100686113 /* Assets.xcassets */,
 				4B71786A2B2239A100686113 /* LaunchScreen.storyboard */,
 				4B71786D2B2239A100686113 /* Info.plist */,
 				4B71786E2B2239A100686113 /* main.m */,
 			);
 			path = "netperf-wrapper";
+			sourceTree = "<group>";
+		};
+		4B7178752B223AE900686113 /* netperf */ = {
+			isa = PBXGroup;
+			children = (
+				4BDECF652B2A04C300C3D06C /* netcpu.h */,
+				4BD330AE2B2734D200B0B257 /* dscp.c */,
+				4BD330AD2B2734D200B0B257 /* net_uuid.c */,
+				4B7178972B2319CA00686113 /* netcpu_sysctl.c */,
+				4B7178922B230F5E00686113 /* hist.h */,
+				4B7178852B223BEA00686113 /* netlib.c */,
+				4B71787B2B223BE900686113 /* netlib.h */,
+				4B7178832B223BE900686113 /* netperf.c */,
+				4B09D9F12B2339E800314943 /* netperf.h */,
+				4B71787E2B223BE900686113 /* netsh.c */,
+				4B71787D2B223BE900686113 /* netsh.h */,
+				4B7178782B223BE900686113 /* nettest_bsd.c */,
+				4B7178762B223BE900686113 /* nettest_bsd.h */,
+				4B7178822B223BE900686113 /* nettest_omni.c */,
+				4B7178952B23128700686113 /* netperf_version.h */,
+			);
+			path = netperf;
+			sourceTree = "<group>";
+		};
+		4B7178932B23106300686113 /* backend */ = {
+			isa = PBXGroup;
+			children = (
+				4B50355F2B3095A60004DE36 /* netserver.yaml */,
+				4B7178942B23109700686113 /* netperf-build.sh */,
+			);
+			path = backend;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -85,6 +145,7 @@
 			buildPhases = (
 				4B7178552B2239A000686113 /* Sources */,
 				4B7178562B2239A000686113 /* Frameworks */,
+				4B88EC0C2B348080007EB357 /* Run Script */,
 				4B7178572B2239A000686113 /* Resources */,
 			);
 			buildRules = (
@@ -141,14 +202,44 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4B88EC0C2B348080007EB357 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "cd \"${PROJECT_DIR}\";\nagvtool bump\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4B7178552B2239A000686113 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B7178642B2239A000686113 /* ViewController.m in Sources */,
+				4B71788D2B223BEA00686113 /* nettest_omni.c in Sources */,
+				4B7178892B223BEA00686113 /* nettest_bsd.c in Sources */,
+				4B71788A2B223BEA00686113 /* netsh.c in Sources */,
+				4BD330AF2B2734D200B0B257 /* net_uuid.c in Sources */,
+				4B71788E2B223BEA00686113 /* netperf.c in Sources */,
 				4B71785E2B2239A000686113 /* AppDelegate.m in Sources */,
+				4B7178982B2319CB00686113 /* netcpu_sysctl.c in Sources */,
 				4B71786F2B2239A100686113 /* main.m in Sources */,
+				4B7178902B223BEA00686113 /* netlib.c in Sources */,
+				4BD330B02B2734D200B0B257 /* dscp.c in Sources */,
+				4BAA4A402B25D70F00B53948 /* NetperfWrapper.m in Sources */,
 				4B7178612B2239A000686113 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,7 +318,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -282,7 +373,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -296,21 +387,26 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = "netperf-wrapper/netperf-wrapper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_TEAM = WV77Z2GV8T;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "netperf-wrapper/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "netperf-rtt";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Notes location when outputting latency result";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.amazonaws.netperf-wrapper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -323,21 +419,26 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = "netperf-wrapper/netperf-wrapper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_TEAM = WV77Z2GV8T;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "netperf-wrapper/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "netperf-rtt";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Notes location when outputting latency result";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.amazonaws.netperf-wrapper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -52,9 +52,7 @@
 #include <string.h>
 #include <fcntl.h>
 
-#if defined(HAVE_UNISTD_H)
 #include <unistd.h>
-#endif
 
 #if defined(HAVE_INTTYPES_H)
 #include <inttypes.h>
@@ -79,9 +77,8 @@
 # endif
 #endif
 
-#if HAVE_SYS_TIME_H
 #include <sys/time.h>
-#endif
+
 
 #if HAVE_SYS_SYSINFO_H
 #include <sys/sysinfo.h>

@@ -1,0 +1,274 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: |
+
+  Set up an instance in its own VPC, in either a public subnet in a Regional AZ, or in a WLZ, with internet access, running Amazon Linux 2023 and the netperf server.
+
+Parameters:
+  NPCidr:
+    Description: Please input a CIDR block for this stack. 
+    Type: String
+    AllowedPattern: '((\d{1,3})\.){3}\d{1,3}/\d{1,2}'
+    Default: "192.168.223.0/24"
+
+  NPUserData:
+    Description: Clone, patch, build, run netperf
+    Type: String
+    Default: |
+      #!/bin/bash -xe 
+      # Install build tools ; 
+      sudo su ec2-user ; 
+      sudo yum update -y ; 
+      sudo yum install -y git patch automake autoconf gcc ; 
+      # clone netperf ; 
+      cd /tmp ; 
+      git clone https://github.com/HewlettPackard/netperf ; 
+      # patch netperf ; 
+      cd netperf ; 
+      sed -s 's/AC_CHECK_SA_LEN(ac_cv_sockaddr_has_sa_len)//' < configure.ac > configure.ac.mod ; 
+      cat <<EOF | patch src/nettest_omni.c ; 
+      488c488
+      < int
+      ---
+      > extern int
+      EOF
+      # build netperf ; 
+      rm -f ./configure ; 
+      cp configure.ac.mod configure.ac ; 
+      aclocal ; 
+      autoheader ; 
+      automake --add-missing ; 
+      autoconf ; 
+      ./configure ;
+      cd src ; 
+      make ;
+      # run netperf ; 
+      ./netserver -V ; 
+      ./netserver -D -N -f & 
+
+  LatestAmiId:
+    Description: The AWS Systems Manager Parameter Store key for the latest Amazon Linux 2023 AMI ID. Only change this parameter if you wish to evaluate behaviour with an alternative Linux distribution.
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64'
+
+  NPInstanceType:
+    Description: The instance type to launch. Needs to be available in WLZ which limits it to (t3.medium, t3.xlarge, r5.2xlarge, g4dn.2xlarge) at the time of writing.
+    Type: String
+    Default: r5.2xlarge
+
+  NPCarrierZone:
+    Description: The Wavelength zone ID in which to build a subnet. Examples for UK would be euw2-wl2-man-wlz1 (BT - Manchester), euw2-wl1-man-wlz1 (Vodafone - Manchester), euw2-wl1-lon-wlz1 (Vodafone - London). Leave blank to build no carrier subnet or carrier gateway.
+    Type: String
+    Default: "euw2-wl2-man-wlz1"
+
+Conditions:
+  CreateCarrierResources: !Not [ !Equals [!Ref NPCarrierZone, "" ] ]
+
+Resources:
+    NPVPC:
+      Type: AWS::EC2::VPC
+      Properties:
+        CidrBlock: !Ref 'NPCidr'
+        InstanceTenancy: default
+        EnableDnsSupport: true
+        EnableDnsHostnames: true
+        Tags:
+          - Key: Name
+            Value: 'Netperf VPC'
+
+    NPSubnetPublicA:
+      Type: AWS::EC2::Subnet
+      Properties:
+        CidrBlock: !Select [0, !Cidr [ !GetAtt NPVPC.CidrBlock, 4, 6 ]]
+        AvailabilityZone: !Select [ 0, Fn::GetAZs: !Ref 'AWS::Region' ]
+        VpcId: !Ref 'NPVPC'
+        Tags:
+          - Key: Name
+            Value: 'Netperf public subnet'
+
+    NPSubnetCarrier:
+      Type: AWS::EC2::Subnet
+      Condition: CreateCarrierResources
+      Properties:
+        CidrBlock: !Select [ 1, !Cidr [ !GetAtt NPVPC.CidrBlock, 4, 6 ]]
+        AvailabilityZoneId: !Ref 'NPCarrierZone'
+        VpcId: !Ref 'NPVPC'
+        Tags:
+          - Key: Name
+            Value: 'Netperf carrier subnet'
+
+    NPSG:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Netperf security group
+        VpcId: !Ref 'NPVPC'
+        SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 12865
+          ToPort: 12865
+          CidrIp: 0.0.0.0/0
+        Tags:
+          - Key: Name
+            Value: 'Netperf security groutp'
+
+    # Routing tables
+
+    NPRouteTablePublic1:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId: !Ref 'NPVPC'
+        Tags:
+          - Key: Name
+            Value: 'Netperf public route table'
+
+    NPSubnetAPublicRouteAssociation:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        RouteTableId: !Ref 'NPRouteTablePublic1'
+        SubnetId: !Ref 'NPSubnetPublicA'
+
+    NPRouteTableCarrier:
+      Condition: CreateCarrierResources
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId: !Ref 'NPVPC'
+        Tags:
+          - Key: Name
+            Value: 'Netperf Wavelength route table'
+
+    NPCarrierSubnetRouteAssociation:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        RouteTableId: !Ref 'NPRouteTableCarrier'
+        SubnetId: !Ref 'NPSubnetCarrier'
+
+    # This role allows connections from Session Manager and fetches
+    # from the yum repositories. 
+
+    NPInstanceRole:
+        Type: AWS::IAM::Role
+        Properties:
+          ManagedPolicyArns: 
+            - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+            - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+          AssumeRolePolicyDocument:
+            Statement:
+             - Effect: Allow
+               Principal:
+                 Service: [ ec2.amazonaws.com ]
+               Action:
+                 - sts:AssumeRole
+          Policies:
+            - PolicyName: s3-repository-access-policy
+              PolicyDocument:
+                Version: 2012-10-17
+                Statement:
+                  - Effect: Allow
+                    Action: 
+                      - 's3:GetObject'
+                    Resource:
+                      - !Join [ '.', [ 'arn:aws:s3:::packages', !Ref AWS::Region, 'amazonaws.com/*' ] ]
+                      - !Join [ '.', [ 'arn:aws:s3:::repo', !Ref AWS::Region, 'amazonaws.com/*' ] ]
+                      - !Join [ '.', [ 'arn:aws:s3:::amazonlinux', !Ref AWS::Region, 'amazonaws.com/*' ] ] 
+              
+
+    NPInstanceProfile:
+        Type: AWS::IAM::InstanceProfile
+        Properties:
+          Roles: [ !Ref NPInstanceRole ]
+          
+    NPInstance1:
+      Type: AWS::EC2::Instance
+      Properties:
+        AvailabilityZone: !Select [ 0, Fn::GetAZs: !Ref 'AWS::Region' ]
+        IamInstanceProfile: !Ref NPInstanceProfile
+        ImageId: !Ref LatestAmiId
+        InstanceType: !Ref NPInstanceType
+        UserData: 
+          Fn::Base64: !Sub |
+                  ${NPUserData}
+        NetworkInterfaces:
+         - DeviceIndex: 0
+           SubnetId: !Ref 'NPSubnetPublicA'
+           GroupSet: [!Ref 'NPSG']
+        Tags:
+          - Key: Name
+            Value: 'Netperf instance'
+
+    NPCarrierInstance1:
+      Type: AWS::EC2::Instance
+      Condition: CreateCarrierResources
+      Properties:
+        IamInstanceProfile: !Ref NPInstanceProfile
+        ImageId: !Ref LatestAmiId
+        InstanceType: !Ref NPInstanceType
+        UserData: 
+          Fn::Base64: !Sub |
+                  ${NPUserData}
+        NetworkInterfaces:
+         - DeviceIndex: 0
+           AssociateCarrierIpAddress: 'true'
+           SubnetId: !Ref 'NPSubnetCarrier'
+           GroupSet: [!Ref 'NPSG']
+        BlockDeviceMappings:
+         - DeviceName: /dev/xvda
+           Ebs:
+             VolumeType: gp2
+        Tags:
+          - Key: Name
+            Value: 'Netperf WLZ instance'
+
+    # IGW and CGW
+
+    NPIGW:
+      Type: AWS::EC2::InternetGateway
+      Properties:
+        Tags:
+        - Key: Name
+          Value: 'igw-1'
+
+    NPCGW:
+      Type: AWS::EC2::CarrierGateway
+      Condition: CreateCarrierResources
+      Properties:
+        VpcId: !Ref 'NPVPC'
+
+    NPIGWAttachment:
+      Type: AWS::EC2::VPCGatewayAttachment
+      Properties:
+        InternetGatewayId: !Ref 'NPIGW'
+        VpcId: !Ref 'NPVPC'
+
+    NPPublicRoute1:
+      Type: AWS::EC2::Route
+      DependsOn: [ NPIGWAttachment ]
+      Properties:
+        RouteTableId: !Ref 'NPRouteTablePublic1'
+        DestinationCidrBlock: 0.0.0.0/0
+        GatewayId: !Ref 'NPIGW'
+
+    NPCarrierRoute1:
+      Type: AWS::EC2::Route
+      Condition: CreateCarrierResources
+      Properties:
+        RouteTableId: !Ref 'NPRouteTableCarrier'
+        DestinationCidrBlock: 0.0.0.0/0
+        CarrierGatewayId: !Ref 'NPCGW'
+
+    NPIp1:
+      Type: AWS::EC2::EIP
+      Properties:
+        InstanceId: !Ref 'NPInstance1'
+
+Outputs:
+    NPIp1Output:
+      Description: The public IPv4 address of the instance running Netperf
+      Value: !GetAtt NPIp1.PublicIp
+
+    NPZoneOutput:
+      Description: The Availability Zone ID where the instance is running
+      Value: !GetAtt NPSubnetPublicA.AvailabilityZoneId
+
+    NPWLZoneOutput:
+      Condition: CreateCarrierResources
+      Description: The WLZ ID where the carrier instance is running
+      Value: !GetAtt NPSubnetCarrier.AvailabilityZoneId

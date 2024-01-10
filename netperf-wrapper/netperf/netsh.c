@@ -37,6 +37,8 @@ char	netsh_id[]="\
 #include "config.h"
 #endif
 
+#define WANT_MIGRATION 1
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -119,13 +121,13 @@ extern	int	getopt(int , char **, char *) ;
 /************************************************************************/
 
 /* some names and such */
-char *program;		/* program invocation name */
-char *command_line;     /* a copy of the entire command line */
+char *program = NULL;		/* program invocation name */
+char *command_line = NULL;     /* a copy of the entire command line */
 
 /* stuff to say where this test is going */
 char
   host_name[HOSTNAMESIZE] = "",	      /* remote host name or ip addr */
-  local_host_name[HOSTNAMESIZE] = "", /* local hostname or ip */
+  local_host_name[HOSTNAMESIZE] = "0.0.0.0", /* local hostname or ip */
   test_name[BUFSIZ] = "TCP_STREAM",   /* which test to run */
   test_port[PORTBUFSIZE] = "12865",   /* where is the test waiting */
   local_test_port[PORTBUFSIZE] = "0"; /* from whence we should start */
@@ -142,7 +144,7 @@ char    remote_fill_file[32] = ""; /* size limited for control message */
 int
   debug = 0,			/* debugging level */
   print_headers = 1,		/* do/don't display headers */
-  verbosity = 1,		/* verbosity level */
+  verbosity = 0,		/* verbosity level */
   keep_histogram = 0,
   keep_statistics = 0;
 
@@ -504,7 +506,7 @@ parse_direction(char direction_string[])
   else {
     /* we now "ass-u-me" it is a number that can be parsed by strtol()
  */
-    left = strtol(arg1,NULL,0);
+    left = (int)strtol(arg1,NULL,0);
   }
 
   return (left | right);
@@ -569,14 +571,14 @@ parse_protocol(char protocol_string[])
 
 
 void
-print_netserver_usage()
+print_netserver_usage(void)
 {
   fprintf(stderr, "%s", netserver_usage);
 }
 
 
 void
-print_netperf_usage()
+print_netperf_usage(void)
 {
   fprintf(stderr, "%s%s", netperf_usage1, netperf_usage2);
 }
@@ -599,7 +601,7 @@ convert_to_upper(char *source)
 }
 
 void
-scan_cmd_line(int argc, char *argv[])
+scan_cmd_line(int argc, char * const argv[])
 {
   extern int	optind;           /* index of first unused arg 	*/
   extern char	*optarg;	  /* pointer to option string	*/
@@ -612,6 +614,7 @@ scan_cmd_line(int argc, char *argv[])
   char	arg1[BUFSIZ],  /* argument holders		*/
     arg2[BUFSIZ];
 
+  if (program != NULL) free(program);
   program = (char *)malloc(strlen(argv[0]) + 1);
   if (program == NULL) {
     printf("malloc() to store program name failed!\n");
@@ -620,6 +623,7 @@ scan_cmd_line(int argc, char *argv[])
   strcpy(program, argv[0]);
 
   /* brute force, but effective */
+  if (command_line != NULL) free(command_line);
   command_line = NULL;
   cmnd_len = 0;
   for (c = 0; c < argc; c++) {
@@ -641,13 +645,19 @@ scan_cmd_line(int argc, char *argv[])
   }
   *--p = 0;
 
+  /* Reset the getopt stuff, was not originally intended to run more
+     than once. */
+    
+  optind = 1;
+  optreset = 1;
+      
   /* Go through all the command line arguments and break them out. For
      those options that take two parms, specifying only the first will
      set both to that value. Specifying only the second will leave the
      first untouched. To change only the first, use the form first,
      (see the routine break_args.. */
 
-  while ((c= getopt(argc, argv, GLOBAL_CMD_LINE_ARGS)) != EOF) {
+  while ((c = getopt(argc, argv, GLOBAL_CMD_LINE_ARGS)) != EOF) {
     switch (c) {
     case '?':
     case 'h':
@@ -1320,7 +1330,7 @@ scan_cmd_line(int argc, char *argv[])
 
 
 void
-dump_globals()
+dump_globals(void)
 {
   printf("Program name: %s\n", program);
   printf("Local send alignment: %d\n",local_send_align);

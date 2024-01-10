@@ -1,9 +1,5 @@
-//
-//  SceneDelegate.h
-//  netperf-wrapper
-//
-//  Created by Naylon, John on 07/12/2023.
-//
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
 
 #import <UIKit/UIKit.h>
 
