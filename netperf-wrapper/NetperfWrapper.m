@@ -22,10 +22,8 @@ static NSISO8601DateFormatter *df = NULL;
 static NSUserDefaults *ud = NULL;
 static double lat = 0.0f, lon = 0.0f;
 
-static char host1[64] = "127.0.0.1";
-static unsigned short data_port1 = 0;
-static char host2[64] = "127.0.0.1";
-static unsigned short data_port2 = 0;
+static char host1[64] = { 0 };
+static char host2[64] = { 0 };
 static char *duration = "60"; //seconds
 
 static BOOL continousTestingRunning = NO;
@@ -33,25 +31,16 @@ static BOOL continousTestingRunning = NO;
 static void
 setup_complete(BOOL host2callback, int port, void *user_data)
 {
-    unsigned short *data_port = host2callback?&data_port2:&data_port1;
     NetperfWrapper *obj = (__bridge NetperfWrapper *)user_data;
-    UILabel *l_port = host2callback?obj.l_port2:obj.l_port;
     UIButton *b_setup = host2callback?obj.b_setup2:obj.b_setup;
-    NSString *key = host2callback?@"port2":@"port1";
     NSLog(@"setup_complete %@ %d", host2callback?@"host2callback=YES":@"host2callback=NO", port);
 
     dispatch_async(dispatch_get_main_queue(), ^{
         if (port == 0) {
-            *data_port = 0;
-            [l_port setText:[NSString stringWithFormat:@"%d (something has gone wrong)", port]];
             [b_setup setEnabled:YES];
-            if (ud) [ud setInteger:0 forKey:key];
             [obj consoleAppend:[NSString stringWithFormat:@"# Control connection for server %d abandoned", host2callback?2:1]];
         } else {
-            *data_port = (unsigned short)(port & 0x0000ffff);
-            [l_port setText:[NSString stringWithFormat:@"%d", port]];
             [obj.b_start setEnabled:YES];
-            if (ud) [ud setInteger:port forKey:key];
             [obj consoleAppend:[NSString stringWithFormat:@"# Control connection for server %d complete", host2callback?2:1]];
         }
     });
@@ -146,15 +135,15 @@ latency_result(BOOL host2callback, double x, unsigned long y, const char *azid, 
 
         /* end of host1 test, next do either host2 or repeat if host2 is unset */
         if (!host2callback) {
-            if (data_port2 != 0) {
-                [obj runTestForHost:host2 usingPort:&data_port2 forDuration:60 withCompletion:host2_autosetup_complete];
+            if (strlen(host2) > 0) {
+                [obj runTestForHost:host2 forDuration:60 withCompletion:host2_autosetup_complete];
             } else if ([obj.s_cont isOn]) {
-                [obj runTestForHost:host1 usingPort:&data_port1 forDuration:60 withCompletion:host1_autosetup_complete];
+                [obj runTestForHost:host1 forDuration:60 withCompletion:host1_autosetup_complete];
             }
             return;
-        } else if (host2callback && data_port1 != 0 && [obj.s_cont isOn]) {
+        } else if (host2callback && strlen(host1) > 0 && [obj.s_cont isOn]) {
             /* otherwise, if we just did host2, and we're running continuous tests, do host1 again */
-            [obj runTestForHost:host1 usingPort:&data_port1 forDuration:60 withCompletion:host1_autosetup_complete];
+            [obj runTestForHost:host1 forDuration:60 withCompletion:host1_autosetup_complete];
         }
 
         /* drop out if we are not doing continuous tests and let user restart */
@@ -197,7 +186,7 @@ instead_of_exit(const char *t, void *user_data)
                 [obj consoleAppendCString:t_copy];
                 if (continousTestingRunning) {
                     /* just try to keep going */
-                    [obj runTestForHost:host1 usingPort:&data_port1 forDuration:60 withCompletion:host1_autosetup_complete];
+                    [obj runTestForHost:host1 forDuration:60 withCompletion:host1_autosetup_complete];
                 } else {
                     [obj.b_start setEnabled:NO];
                     [obj.b_setup setEnabled:YES];
@@ -364,23 +353,7 @@ instead_of_exit(const char *t, void *user_data)
         }
         i++;
     }
-
-    i = 1;
-    for (UILabel *l_port in [NSArray arrayWithObjects:self.l_port, self.l_port2, nil]) {
-        if (ud && [ud integerForKey:[NSString stringWithFormat:@"port%ld", i]]) {
-            p = [ud integerForKey:[NSString stringWithFormat:@"port%ld", i]];
-            if (i == 1) {
-                data_port1 = (p & 0x0000ffff);
-            } else if (i == 2) {
-                data_port2 = (p & 0x0000ffff);
-            }
-            [l_port setText:[NSString stringWithFormat:@"%ld", p]];
-        } else {
-            [l_port setText:@"Unknown"];
-        }
-        i++;
-    }
-
+    
     [self consoleAppend:@"# Ready"];
 }
 
@@ -395,11 +368,12 @@ instead_of_exit(const char *t, void *user_data)
     NSLog(@"start_pressed %@", sender);
     [self.b_start setEnabled:NO];
     continousTestingRunning = [self.s_cont isOn];
-    [self runTestForHost:host1 usingPort:&data_port1 forDuration:60 withCompletion:host1_autosetup_complete];
+    [self runTestForHost:host1 forDuration:60 withCompletion:host1_autosetup_complete];
     if (lm) [lm requestLocation];
 }
 
-- (void)runTestForHost:(const char *)host usingPort:(unsigned short *)data_port forDuration:(unsigned int)seconds
+- (void)runTestForHost:(const char *)host
+           forDuration:(unsigned int)seconds
         withCompletion:(void (int, void *))f_complete
 {
     dispatch_async(q, ^{
@@ -407,21 +381,12 @@ instead_of_exit(const char *t, void *user_data)
         char dur_t[64];
         snprintf(dur_t, sizeof(dur_t), "%u", seconds);
 
-        NSLog(@"host = %s, data_port = %hu, duration=%u", host, *data_port, seconds);
-        if (*data_port == 0) {
-            const char *netperf_args[] = { "netperf-wrapper", "-4", "-H", host, "-l", dur_t, "-t", "tcp_rr", "--"};
+        NSLog(@"host = %s, duration=%u", host, seconds);
+
+        const char *netperf_args[] = { "netperf-wrapper", "-4", "-H", host, "-l", dur_t, "-t", "tcp_rr", "--", "-P", "12866" };
             
-            netperf_main(sizeof(netperf_args)/sizeof(const char *), netperf_args,
+        netperf_main(sizeof(netperf_args)/sizeof(const char *), netperf_args,
                          (__bridge void *)(self), f_complete, instead_of_exit);
-        } else {
-            char tempport[16];
-            snprintf(tempport, sizeof(tempport)/sizeof(char), "%hu", *data_port);
-            const char *netperf_args[] = { "netperf-wrapper", "-4", "-H", host, "-l", dur_t, "-t", "tcp_rr",
-                                            "--", "-P", tempport };
-            
-            netperf_main(sizeof(netperf_args)/sizeof(const char *), netperf_args,
-                         (__bridge void *)(self), f_complete, instead_of_exit);
-        }
     });
 }
 
@@ -430,21 +395,15 @@ instead_of_exit(const char *t, void *user_data)
     static unsigned int i = 1;
     NSLog(@"setup_pressed %u, sender=%@", i++, (sender==self.b_setup)?@"b_setup":@"b_setup2");
     char *host;
-    unsigned short *data_port;
-    UILabel *l_port;
     UITextField *address;
     void (*f_complete)(int, void *);
         
     if (sender == self.b_setup) {
-        l_port = self.l_port;
         host = host1;
-        data_port = &data_port1;
         f_complete = setup1_complete;
         address = self.address;
     } else if (sender == self.b_setup2) {
-        l_port = self.l_port2;
         host = host2;
-        data_port = &data_port2;
         f_complete = setup2_complete;
         address = self.address2;
     } else {
@@ -462,8 +421,6 @@ instead_of_exit(const char *t, void *user_data)
             if (strcmp(host, temphost) != 0) {
                 /*  if host changed then don't remember the port */
                 strcpy(host, temphost);
-                [l_port setText:@"Uknnown"];
-                *data_port = 0;
             }
         } else {
             NSLog(@"bad address %@", address.text);
@@ -474,7 +431,7 @@ instead_of_exit(const char *t, void *user_data)
     
     [(UIButton *)sender setEnabled:NO];
     [self consoleAppend:[NSString stringWithFormat:@"# Set up control connection to %s:12865...", host]];
-    [self runTestForHost:host usingPort:data_port forDuration:1 withCompletion:f_complete];
+    [self runTestForHost:host forDuration:1 withCompletion:f_complete];
     [self.view endEditing:YES];
 }
 @end

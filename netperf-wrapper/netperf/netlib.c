@@ -2555,7 +2555,7 @@ send_request_n(int n)
            (char *)&netperf_request,
            sizeof(netperf_request),
            0) != sizeof(netperf_request)) {
-      f_exit("send_request: send call failure (usually means no server running)\n", f_user_data);
+      f_exit("send_request: send call failure (usually means no server running, or you are on WiFi but trying to connect to a WLZ instance)\n", f_user_data);
       return;
   }
 }

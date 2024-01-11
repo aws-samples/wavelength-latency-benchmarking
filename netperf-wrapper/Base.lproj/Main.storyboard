@@ -24,53 +24,36 @@
                                         <rect key="frame" x="0.0" y="0.0" width="363" height="759"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hAs-Nc-kET">
-                                                <rect key="frame" x="0.0" y="0.0" width="363" height="20.333333333333332"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="363" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IPv4 address of server 1: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AmG-fA-1nU" userLabel="IPv4 address of server 1:">
-                                                        <rect key="frame" x="0.0" y="0.0" width="191.66666666666666" height="20.333333333333332"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="191.66666666666666" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="frE-ji-X7h">
-                                                        <rect key="frame" x="191.66666666666663" y="0.0" width="171.33333333333337" height="20.333333333333332"/>
+                                                        <rect key="frame" x="191.66666666666663" y="0.0" width="171.33333333333337" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad" enablesReturnKeyAutomatically="YES"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lv1-aS-ffH">
-                                                <rect key="frame" x="0.0" y="20.333333333333332" width="363" height="34.333333333333343"/>
+                                                <rect key="frame" x="0.0" y="34" width="363" height="44"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DSM-4x-ete">
-                                                        <rect key="frame" x="0.0" y="0.0" width="363" height="34.333333333333336"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="363" height="44"/>
                                                         <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain" title="Set up server 1"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="Test server 1"/>
                                                         <connections>
                                                             <action selector="setup_pressed:" destination="TxX-Fx-P3T" eventType="touchUpInside" id="C0w-O1-rQk"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qbs-gs-zCf">
-                                                <rect key="frame" x="0.0" y="54.666666666666679" width="363" height="20.333333333333336"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCP port for server 1: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHM-TU-sVY">
-                                                        <rect key="frame" x="0.0" y="0.0" width="166" height="20.333333333333332"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Unknown" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LDq-5m-QYS">
-                                                        <rect key="frame" x="166" y="0.0" width="197" height="20.333333333333332"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dYg-Z7-4B3">
-                                                <rect key="frame" x="0.0" y="75" width="363" height="20.333333333333329"/>
+                                                <rect key="frame" x="0.0" y="78" width="363" height="20.333333333333329"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Round-trip latency: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pp-ak-FOt">
                                                         <rect key="frame" x="0.0" y="0.0" width="150.33333333333334" height="20.333333333333332"/>
@@ -87,7 +70,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nCF-1M-Zt2">
-                                                <rect key="frame" x="0.0" y="95.333333333333343" width="363" height="20.333333333333329"/>
+                                                <rect key="frame" x="0.0" y="98.333333333333343" width="363" height="20.333333333333329"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transactions: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ojx-zj-EO9">
                                                         <rect key="frame" x="0.0" y="0.0" width="106.33333333333333" height="20.333333333333332"/>
@@ -104,53 +87,36 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GWR-Hu-sd2">
-                                                <rect key="frame" x="0.0" y="115.66666666666666" width="363" height="23.666666666666657"/>
+                                                <rect key="frame" x="0.0" y="118.66666666666666" width="363" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IPv4 address of server 2: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgT-qc-FGo" userLabel="IPv4 address of server 1:">
-                                                        <rect key="frame" x="0.0" y="0.0" width="194" height="23.666666666666668"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="194" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cHZ-LW-UIo">
-                                                        <rect key="frame" x="194" y="0.0" width="169" height="23.666666666666668"/>
+                                                        <rect key="frame" x="194" y="0.0" width="169" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad" enablesReturnKeyAutomatically="YES"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k00-Pf-gFG">
-                                                <rect key="frame" x="0.0" y="139.33333333333334" width="363" height="34.333333333333343"/>
+                                                <rect key="frame" x="0.0" y="152.66666666666666" width="363" height="38"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VTg-hj-jLE">
-                                                        <rect key="frame" x="0.0" y="0.0" width="363" height="34.333333333333336"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="363" height="38"/>
                                                         <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain" title="Set up server 2"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title="Test server 2"/>
                                                         <connections>
                                                             <action selector="setup_pressed:" destination="TxX-Fx-P3T" eventType="touchUpInside" id="QIt-Q3-Bem"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1fA-aM-NrQ">
-                                                <rect key="frame" x="0.0" y="173.66666666666666" width="363" height="20.333333333333343"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCP port for server 2: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EOY-Cg-dQt">
-                                                        <rect key="frame" x="0.0" y="0.0" width="168.33333333333334" height="20.333333333333332"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Unknown" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDq-i6-aah">
-                                                        <rect key="frame" x="168.33333333333337" y="0.0" width="194.66666666666663" height="20.333333333333332"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kb1-3b-rug">
-                                                <rect key="frame" x="0.0" y="194" width="363" height="20.333333333333343"/>
+                                                <rect key="frame" x="0.0" y="190.66666666666666" width="363" height="20.333333333333343"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Round-trip latency: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rii-Gg-ASX">
                                                         <rect key="frame" x="0.0" y="0.0" width="150.33333333333334" height="20.333333333333332"/>
@@ -167,7 +133,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pgV-zc-WbS">
-                                                <rect key="frame" x="0.0" y="214.33333333333331" width="363" height="20.333333333333343"/>
+                                                <rect key="frame" x="0.0" y="211" width="363" height="20.333333333333343"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transactions: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HHa-hF-OcP">
                                                         <rect key="frame" x="0.0" y="0.0" width="106.33333333333333" height="20.333333333333332"/>
@@ -184,10 +150,10 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dfn-eU-aao">
-                                                <rect key="frame" x="0.0" y="234.66666666666669" width="363" height="31"/>
+                                                <rect key="frame" x="0.0" y="231.33333333333331" width="363" height="34.333333333333314"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZDW-lv-q0E">
-                                                        <rect key="frame" x="0.0" y="0.0" width="218.33333333333334" height="31"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="218.33333333333334" height="34.333333333333336"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" title="Start tests"/>
                                                         <connections>
@@ -195,10 +161,10 @@
                                                         </connections>
                                                     </button>
                                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="Continuous" translatesAutoresizingMaskIntoConstraints="NO" id="MMp-SK-oeH">
-                                                        <rect key="frame" x="218.33333333333334" y="0.0" width="51.000000000000028" height="31"/>
+                                                        <rect key="frame" x="218.33333333333334" y="0.0" width="51.000000000000028" height="34.333333333333336"/>
                                                     </switch>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Continuous " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bU-4B-1dS">
-                                                        <rect key="frame" x="267.33333333333331" y="0.0" width="95.666666666666686" height="31"/>
+                                                        <rect key="frame" x="267.33333333333331" y="0.0" width="95.666666666666686" height="34.333333333333336"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -263,8 +229,6 @@
                         <outlet property="l_copied" destination="cFz-xg-Gzc" id="GNl-pz-fxD"/>
                         <outlet property="l_latency" destination="PMd-j1-ack" id="Brv-ly-zB0"/>
                         <outlet property="l_latency2" destination="Wzq-0R-tzc" id="wOo-Va-n6n"/>
-                        <outlet property="l_port" destination="LDq-5m-QYS" id="o83-SZ-jgf"/>
-                        <outlet property="l_port2" destination="wDq-i6-aah" id="RVa-cQ-fYe"/>
                         <outlet property="l_transactions" destination="znI-I2-5mw" id="vUE-qS-VoI"/>
                         <outlet property="l_transactions2" destination="VZo-X1-pvb" id="hzS-Ta-iDw"/>
                         <outlet property="s_cont" destination="MMp-SK-oeH" id="pMY-Zy-I18"/>
