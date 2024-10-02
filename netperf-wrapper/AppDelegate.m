@@ -11,7 +11,8 @@
 /* Boilerplate */
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    // Don't go to sleep if we don't receive any touch interaction
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     return YES;
 }
 #pragma mark - UISceneSession lifecycle

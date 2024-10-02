@@ -2,8 +2,6 @@
 # SPDX-License-Identifier: MIT-0
 AWSTemplateFormatVersion: '2010-09-09'
 
-Transform: AWS::LanguageExtensions
-
 Description: |
   Set up an instance in its own VPC, in a public subnet in a Regional AZ, with internet access, running Amazon Linux 2023 and the netperf server. Optionally also set up an instance in a single Wavelength Zone running the same software.
 
@@ -24,10 +22,10 @@ Parameters:
       sudo yum update -y ; 
       sudo yum install -y git patch automake autoconf gcc ; 
       # clone netperf ; 
-      cd /tmp ; 
+      cd /home/ec2-user; 
       git clone https://github.com/HewlettPackard/netperf ; 
-      # Patch netperf ; 
-      cd netperf ; 
+      # Patch netperf, firstly to build at all on AL2023, and secondly to pass the AZ ID where it is running back with results ;
+      cd netperf ;
       sed -s 's/AC_CHECK_SA_LEN(ac_cv_sockaddr_has_sa_len)//' < configure.ac > configure.ac.mod ; 
       cat <<EOF | patch src/netserver.c ; 
       194a195
@@ -88,10 +86,13 @@ Parameters:
       make netserver ;
       # identify our zone ;
       T=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 20" `;
-      AZID=`curl -H "X-aws-ec2-metadata-token: ${T}" -v http://169.254.169.254/latest/meta-data/placement/availability-zone-id` ; 
+      AZID=`curl -H "X-aws-ec2-metadata-token: ${T}" -v http://169.254.169.254/latest/meta-data/placement/availability-zone-id` ;
+      # fix permissions ; 
+      cd /home/ec2-user ;
+      chown -R ec2-user:ec2-user netperf ;
       # run netperf ; 
-      ./netserver -V ; 
-      ./netserver -D -N -f -z "${AZID}" & 
+      ./netperf/src/netserver -V ; 
+      ./netperf/src/netserver -D -N -f -z "${AZID}" & 
 
   LatestAmiId:
     Description: The AWS Systems Manager Parameter Store key for the latest Amazon Linux 2023 AMI ID. Only change this parameter if you wish to evaluate behaviour with an alternative Linux distribution.
@@ -104,9 +105,8 @@ Parameters:
     Default: t3.xlarge
 
   NPCarrierZone:
-    Description: The Wavelength zone ID in which to build carrier resources. Examples for UK would be euw2-wl2-man-wlz1 (BT - Manchester), euw2-wl1-man-wlz1 (Vodafone - Manchester), euw2-wl1-lon-wlz1 (Vodafone - London). Leave blank to build no carrier resources.
+    Description: The Wavelength zone ID in which to build carrier resources. Examples for UK would be euw2-wl2-man-wlz1 (BT - Manchester), euw2-wl1-man-wlz1 (Vodafone - Manchester), euw2-wl1-lon-wlz1 (Vodafone - London). See https://aws.amazon.com/wavelength/locations/ for full list of Wavelength locations. Leave blank to build no carrier resources.
     Type: String
-    Default: "euw2-wl1-man-wlz1"
 
 Conditions:
   CreateCarrierResources: !Not [ !Equals [!Ref NPCarrierZone, "" ] ]
@@ -144,6 +144,21 @@ Resources:
           - Key: Name
             Value: 'Netperf carrier subnet'
 
+    # Open the netperf control connection port (12865) and 12866, which
+    # we will use for the data connection. We open to 0.0.0.0/0 here which
+    # prompts questions from a security perspective, but note that:
+    #   1) the infrastructure is only designed to run ephemerally;
+    #   2) the instance role is highly constrained;
+    #   3) it is not seemingly possible to determine UE carrier IP addresses,
+    #      so it is unclear how you would narrow the IP range for the WLZ
+    #      security group.
+    #
+    # Better practice would be to place an NLB in front of the instance, and
+    # open the ports on the NLB; however at the time of writing Wavelength
+    # Zones do not support NLBs. Because we want the infrastructure to be
+    # consistent between the AZ and thw WLZ, we therefore also do not use an
+    # NLB in the Regional AZ.
+
     NPSG:
       Type: AWS::EC2::SecurityGroup
       Properties:
@@ -151,9 +166,16 @@ Resources:
         VpcId: !Ref 'NPVPC'
         SecurityGroupIngress:
         - IpProtocol: tcp
+          Description: Allow traffic from any destination to ports 12865 and 12866
           FromPort: 12865
           ToPort: 12866
           CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          CidrIp: 0.0.0.0/0
+          Description: Allow traffic to any destination
         Tags:
           - Key: Name
             Value: 'Netperf security group'
@@ -166,9 +188,16 @@ Resources:
         VpcId: !Ref 'NPVPC'
         SecurityGroupIngress:
         - IpProtocol: tcp
+          Description: Allow traffic from any destination to ports 12865 and 12866
           FromPort: 12865
           ToPort: 12866
           CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          CidrIp: 0.0.0.0/0
+          Description: Allow traffic to any destination
         Tags:
           - Key: Name
             Value: 'Netperf WLZ security group'
@@ -199,6 +228,7 @@ Resources:
             Value: 'Netperf Wavelength route table'
 
     NPCarrierSubnetRouteAssociation:
+      Condition: CreateCarrierResources
       Type: AWS::EC2::SubnetRouteTableAssociation
       Properties:
         RouteTableId: !Ref 'NPRouteTableCarrier'

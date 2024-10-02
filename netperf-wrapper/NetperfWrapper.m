@@ -216,7 +216,7 @@ instead_of_exit(const char *t, void *user_data)
 
 - (void)saveHostAddresses
 {
-    int i = 1; /*  weird  */
+    int i = 1;
     
     for (UITextField *field in [NSArray arrayWithObjects:self.address, self.address2, nil]) {
         char temphost[64] = { 0 };
@@ -282,7 +282,7 @@ instead_of_exit(const char *t, void *user_data)
         CGFloat pWidth = self.text.frame.size.width;
         CGFloat pHeight = self.text.frame.size.height;
         
-        /* looks stupid if aspect ratio becomes < 1.0 IMHO */
+        /* constrain aspect ratio to >= 1.0 */
         if (lHeight > lWidth) lHeight = lWidth;
         
         self.l_copied.frame = CGRectMake((pWidth - lWidth) / 2.0f, (pHeight - lHeight) / 2.0f,
@@ -302,7 +302,7 @@ instead_of_exit(const char *t, void *user_data)
 
 - (void)viewDidLoad
 {
-    long int i = 1, p;
+    long int i = 1;
 
     [super viewDidLoad];
 
