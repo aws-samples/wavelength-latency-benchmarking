@@ -29,8 +29,10 @@
 		4B1D781D2CB862320024637A /* THIRD-PARTY-LICENSES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "THIRD-PARTY-LICENSES.md"; sourceTree = "<group>"; };
 		4B1D781E2CB8623C0024637A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4B1D781F2CB862600024637A /* latency.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = latency.png; sourceTree = "<group>"; };
-		4B1D78202CB865A50024637A /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		4B50355F2B3095A60004DE36 /* netserver.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = netserver.yaml; sourceTree = "<group>"; };
+		4B542FF62CB87597000E58B4 /* CODE_OF_CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CODE_OF_CONDUCT.md; sourceTree = "<group>"; };
+		4B542FF72CB87597000E58B4 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
+		4B542FF82CB87597000E58B4 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4B7178592B2239A000686113 /* netperf-wrapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "netperf-wrapper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B71785C2B2239A000686113 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4B71785D2B2239A000686113 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -74,7 +76,9 @@
 		4B7178502B2239A000686113 = {
 			isa = PBXGroup;
 			children = (
-				4B1D78202CB865A50024637A /* LICENSE.md */,
+				4B542FF62CB87597000E58B4 /* CODE_OF_CONDUCT.md */,
+				4B542FF72CB87597000E58B4 /* CONTRIBUTING.md */,
+				4B542FF82CB87597000E58B4 /* LICENSE */,
 				4B1D781E2CB8623C0024637A /* README.md */,
 				4B1D781F2CB862600024637A /* latency.png */,
 				4B1D781D2CB862320024637A /* THIRD-PARTY-LICENSES.md */,
