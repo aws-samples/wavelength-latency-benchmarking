@@ -26,6 +26,9 @@
 
 /* Begin PBXFileReference section */
 		4B09D9F12B2339E800314943 /* netperf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = netperf.h; sourceTree = "<group>"; };
+		4B1D781D2CB862320024637A /* THIRD-PARTY-LICENSES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "THIRD-PARTY-LICENSES.md"; sourceTree = "<group>"; };
+		4B1D781E2CB8623C0024637A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4B1D781F2CB862600024637A /* latency.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = latency.png; sourceTree = "<group>"; };
 		4B50355F2B3095A60004DE36 /* netserver.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = netserver.yaml; sourceTree = "<group>"; };
 		4B7178592B2239A000686113 /* netperf-wrapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "netperf-wrapper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B71785C2B2239A000686113 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -70,6 +73,9 @@
 		4B7178502B2239A000686113 = {
 			isa = PBXGroup;
 			children = (
+				4B1D781E2CB8623C0024637A /* README.md */,
+				4B1D781F2CB862600024637A /* latency.png */,
+				4B1D781D2CB862320024637A /* THIRD-PARTY-LICENSES.md */,
 				4B7178932B23106300686113 /* backend */,
 				4B71785B2B2239A000686113 /* netperf-wrapper */,
 				4B71785A2B2239A000686113 /* Products */,
