@@ -46,7 +46,6 @@
 		4B7178832B223BE900686113 /* netperf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = netperf.c; sourceTree = "<group>"; };
 		4B7178852B223BEA00686113 /* netlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = netlib.c; sourceTree = "<group>"; };
 		4B7178922B230F5E00686113 /* hist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hist.h; sourceTree = "<group>"; };
-		4B7178942B23109700686113 /* netperf-build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "netperf-build.sh"; sourceTree = "<group>"; };
 		4B7178952B23128700686113 /* netperf_version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = netperf_version.h; sourceTree = "<group>"; };
 		4B7178972B2319CA00686113 /* netcpu_sysctl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = netcpu_sysctl.c; sourceTree = "<group>"; };
 		4B88EC0B2B348061007EB357 /* netperf-wrapper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "netperf-wrapper.entitlements"; sourceTree = "<group>"; };
@@ -131,7 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				4B50355F2B3095A60004DE36 /* netserver.yaml */,
-				4B7178942B23109700686113 /* netperf-build.sh */,
 			);
 			path = backend;
 			sourceTree = "<group>";
