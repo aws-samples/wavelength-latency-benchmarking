@@ -1,2 +1,1 @@
-#  <#Title#>
-
+The code in the netperf-wrapper/netperf directory is modified from the original source of the [netperf](https://hewlettpackard.github.io/netperf/) project, which has the MIT License (see [here](https://github.com/HewlettPackard/netperf/blob/master/COPYING)).
