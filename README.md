@@ -16,4 +16,12 @@ There are many factors that can affect the round-trip latency between an app on 
 
 One of the strongest benefits of the AWS cloud  is that common APIs and services are available whether running in a Region, a Wavelength Zone, or other types of AWS compute infrastructure. This gives developers a “write once, run anywhere” experience. However, even taking this into account, moving resources from a Region to a Wavelength Zone takes some development and operational effort. In addition, Amazon Elastic Compute Cloud (Amazon EC2) instances and other AWS resources in Wavelength Zones may have different prices than in the parent Region. Therefore, it is logical to evaluate whether the reduction in round-trip latency justifies these incremental investments. 
 
+## Case studies
 
+### Wavelength Zone in Dallas, Texas
+
+![Graph of round-trip latency between a UE on a 5G bearer in the Dallas area and a) the N. Virginia Region; and b) the Dallas-Fort Worth Wavelength Zone][dfw.png]
+
+The Wavelength Zone in Dallas, Texas, is around 1800km from its parent Region of US East (N. Virginia). Due to differences in signal propagation time and packet handling time, we can observe that the round-trip latency to the local Wavelength Zone is around half that to the Region. 
+
+Each data point on the graph is an average over more than 1000 request/response transactions. Even so, to make proper comparisons, tests should be run multiple times under varying conditions that reproduce those expected to be found by real users. 
