@@ -20,7 +20,7 @@ One of the strongest benefits of the AWS cloud  is that common APIs and services
 
 ### Wavelength Zone in Dallas, Texas
 
-![Graph of round-trip latency between a UE on a 5G bearer in the Dallas area and a) the N. Virginia Region; and b) the Dallas-Fort Worth Wavelength Zone][dfw.png]
+![Graph of round-trip latency between a UE on a 5G bearer in the Dallas area and a) the N. Virginia Region; and b) the Dallas-Fort Worth Wavelength Zone](dfw.png)
 
 The Wavelength Zone in Dallas, Texas, is around 1800km from its parent Region of US East (N. Virginia). Due to differences in signal propagation time and packet handling time, we can observe that the round-trip latency to the local Wavelength Zone is around half that to the Region. 
 
